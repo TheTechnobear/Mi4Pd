@@ -6,7 +6,7 @@
 lib.name = tbtest
 
 # input source file (class name == source file basename)
-class.sources = tbtest.c
+class.sources = tbtest.cpp
 
 # all extra files to be included in binary distribution of the library
 datafiles = tbtest-help.pd tbtest-meta.pd README.md

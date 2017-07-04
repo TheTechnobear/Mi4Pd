@@ -1,5 +1,5 @@
-#N canvas 702 334 450 300 10;
+#N canvas 648 342 450 300 10;
 #X obj 16 69 tbtest;
-#X msg 16 37 bang;
 #X text 13 10 prints "tbtest!" when banged.;
-#X connect 1 0 0 0;
+#X obj 16 33 loadbang;
+#X connect 2 0 0 0;
