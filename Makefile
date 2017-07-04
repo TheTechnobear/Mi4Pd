@@ -23,35 +23,34 @@ endif
 ifneq (,$(findstring BRAIDS,$(MI_MODULES)))
 #$(info including BRAIDS)
 BRAIDS_SRC = \
-       ${MUTABLE_INSTRUMENTS}/braids/braids_resources.cpp \
-       ${MUTABLE_INSTRUMENTS}/braids/analog_oscillator.cpp \
-       ${MUTABLE_INSTRUMENTS}/braids/digital_oscillator.cpp \
-       ${MUTABLE_INSTRUMENTS}/braids/macro_oscillator.cpp 
+       ${MUTABLE_INSTRUMENTS}/braids/braids_resources.cc \
+       ${MUTABLE_INSTRUMENTS}/braids/analog_oscillator.cc \
+       ${MUTABLE_INSTRUMENTS}/braids/digital_oscillator.cc \
+       ${MUTABLE_INSTRUMENTS}/braids/macro_oscillator.cc 
 endif
 
 ifneq (,$(findstring WARPS,$(MI_MODULES)))
 #$(info including WARPS)
 WARPS_SRC = \
-       ${MUTABLE_INSTRUMENTS}/warps/warps_resources.cpp \
-       ${MUTABLE_INSTRUMENTS}/warps/dsp/filter_bank.cpp \
-       ${MUTABLE_INSTRUMENTS}/warps/dsp/modulator.cpp \
-       ${MUTABLE_INSTRUMENTS}/warps/dsp/oscillator.cpp \
-       ${MUTABLE_INSTRUMENTS}/warps/dsp/vocoder.cpp 
+       ${MUTABLE_INSTRUMENTS}/warps/warps_resources.cc \
+       ${MUTABLE_INSTRUMENTS}/warps/dsp/filter_bank.cc \
+       ${MUTABLE_INSTRUMENTS}/warps/dsp/modulator.cc \
+       ${MUTABLE_INSTRUMENTS}/warps/dsp/oscillator.cc \
+       ${MUTABLE_INSTRUMENTS}/warps/dsp/vocoder.cc 
 endif
 
 ifneq (,$(findstring ELEMENTS,$(MI_MODULES)))
 #$(info including ELEMENTS)
 ELEMENTS_SRC = \
-       ${FIRMWARE}/axoloti_mi.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/multistage_envelope.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/ominous_voice.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/resonator.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/string.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/tube.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/dsp/exciter.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/elements_resources.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/part.cpp \
-       ${MUTABLE_INSTRUMENTS}/elements/voice.cpp 
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/multistage_envelope.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/ominous_voice.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/resonator.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/string.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/tube.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/exciter.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/elements_resources.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/part.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/voice.cc 
 endif
 
 ifneq (,$(findstring CLOUDS,$(MI_MODULES)))
@@ -69,29 +68,29 @@ endif
 ifneq (,$(findstring RINGS,$(MI_MODULES)))
 #$(info  including RINGS)
 RINGS_SRC = \
-       ${MUTABLE_INSTRUMENTS}/rings/rings_resources.cpp 
+       ${MUTABLE_INSTRUMENTS}/rings/rings_resources.cc 
 endif
 
 ifneq (,$(findstring STREAMS,$(MI_MODULES)))
 #$(info including STREAMS)
 STREAMS_SRC = \
-       ${MUTABLE_INSTRUMENTS}/streams/streams_resources.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/compressor.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/envelope.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/follower.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/lorenz_generator.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/processor.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/svf.cpp \
-       ${MUTABLE_INSTRUMENTS}/streams/vactrol.cpp 
+       ${MUTABLE_INSTRUMENTS}/streams/streams_resources.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/compressor.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/envelope.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/follower.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/lorenz_generator.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/processor.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/svf.cc \
+       ${MUTABLE_INSTRUMENTS}/streams/vactrol.cc 
 endif
 
 #$(info including base MI)
 
 # ${MUTABLE_INSTRUMENTS}/mutable_resources.cpp 
 MISRC = \
-       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/units.cpp \
-       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/atan.cpp \
-       ${MUTABLE_INSTRUMENTS}/stmlib/utils/random.cpp \
+       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/units.cc \
+       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/atan.cc \
+       ${MUTABLE_INSTRUMENTS}/stmlib/utils/random.cc \
        ${BRAIDS_SRC} \
        ${WARPS_SRC} \
        ${ELEMENTS_SRC} \
