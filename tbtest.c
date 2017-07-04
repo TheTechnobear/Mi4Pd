@@ -13,7 +13,7 @@ void *tbtest_bang(t_tbtest *x)
  
 void *tbtest_new(void)  
 {  
-  t_helloworld *x = (t_helloworld *)pd_new(tbtest_class);  
+  t_tbtest *x = (t_tbtest *)pd_new(tbtest_class);  
   
   return (void *)x;  
 }  
