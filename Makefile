@@ -1,12 +1,12 @@
-# Makefile to build class 'helloworld' for Pure Data.
+# Makefile to build technobear library for Pure Data.
 # Needs Makefile.pdlibbuilder as helper makefile for platform-dependent build
 # settings and rules.
 
 # library name
-lib.name = tbtest
+lib.name = technobear
 
 # input source file (class name == source file basename)
-class.sources = tbtest.cpp
+class.sources = tbtest/tbtest.cpp
 
 # all extra files to be included in binary distribution of the library
 datafiles = tbtest-help.pd tbtest-meta.pd README.md
