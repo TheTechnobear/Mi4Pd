@@ -9,7 +9,7 @@ lib.name = technobear
 CPPFLAGS += -I mi
 MI_MODULES = CLOUDS
 MUTABLE_INSTRUMENTS = mi
-#Axoloti optional modules, here we define defaults if none supplied
+#optional modules, here we define defaults if none supplied
 ifeq ($(MI_MODULES),)
 	MI_MODULES = BRAIDS RINGS CLOUDS STREAMS ELEMENTS WARPS
 endif
@@ -84,9 +84,9 @@ endif
 
 MISRC = \
        # ${MUTABLE_INSTRUMENTS}/mutable_resources.cpp \
-       # ${MUTABLE_INSTRUMENTS}/stmlib/dsp/units.cpp \
-       # ${MUTABLE_INSTRUMENTS}/stmlib/dsp/atan.cpp \
-       # ${MUTABLE_INSTRUMENTS}/stmlib/utils/random.cpp \
+       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/units.cpp \
+       ${MUTABLE_INSTRUMENTS}/stmlib/dsp/atan.cpp \
+       ${MUTABLE_INSTRUMENTS}/stmlib/utils/random.cpp \
        ${BRAIDS_SRC} \
        ${WARPS_SRC} \
        ${ELEMENTS_SRC} \
