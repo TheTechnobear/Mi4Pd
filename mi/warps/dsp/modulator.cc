@@ -32,7 +32,7 @@
 
 #include "stmlib/dsp/units.h"
 
-#include "warps/drivers/debug_pin.h"
+// #include "warps/drivers/debug_pin.h"
 #include "warps/resources.h"
 
 namespace warps {

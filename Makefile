@@ -5,9 +5,14 @@
 # library name
 lib.name = technobear
 
+ifneq ($(machine), armv7l)
+
+	CPPFLAGS += -DTEST
+endif
 
 CPPFLAGS += -I mi
-MI_MODULES = CLOUDS
+
+MI_MODULES = CLOUDS WARPS
 MUTABLE_INSTRUMENTS = mi
 #optional modules, here we define defaults if none supplied
 ifeq ($(MI_MODULES),)
@@ -82,8 +87,8 @@ endif
 
 #$(info including base MI)
 
+# ${MUTABLE_INSTRUMENTS}/mutable_resources.cpp 
 MISRC = \
-       # ${MUTABLE_INSTRUMENTS}/mutable_resources.cpp \
        ${MUTABLE_INSTRUMENTS}/stmlib/dsp/units.cpp \
        ${MUTABLE_INSTRUMENTS}/stmlib/dsp/atan.cpp \
        ${MUTABLE_INSTRUMENTS}/stmlib/utils/random.cpp \
@@ -94,12 +99,12 @@ MISRC = \
        ${RINGS_SRC} \
        ${STREAMS_SRC}
 
- 
+common.sources = ${MISRC}
 
 # input source file (class name == source file basename)
 class.sources = tbtest/tbtest.cpp \
 				tb_clds_reverb_tilde/tb_clds_reverb~.cpp \
-				${MISRC}
+				tb_wrps_tilde/tb_wrps~.cpp 
 
 # all extra files to be included in binary distribution of the library
 datafiles = tbtest-help.pd \

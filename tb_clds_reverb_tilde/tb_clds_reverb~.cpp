@@ -1,12 +1,7 @@
 #include "m_pd.h"
 
-#if not defined(__arm__)
-#define TEST 1
-#endif
-
 #include "clouds/dsp/frame.h"
 #include "clouds/dsp/fx/reverb.h"
-
 
 static t_class *tb_clds_reverb_tilde_class;
 
