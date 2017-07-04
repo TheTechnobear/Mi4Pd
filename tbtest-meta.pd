@@ -1,0 +1,9 @@
+#N canvas 966 262 200 200 10;
+#N canvas 19 48 420 300 META 0;
+#X text 10 10 META this is a prototype of a libdir meta file;
+#X text 10 30 NAME helloworld;
+#X text 10 51 AUTHOR Mark Harris;
+#X text 10 90 LICENSE GPL;
+#X text 10 110 VERSION 1.0.0;
+#X text 10 70 DESCRIPTION my first PB external;
+#X restore 10 10 pd META;
