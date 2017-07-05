@@ -21,7 +21,7 @@
 #X msg 354 268 gain \$1;
 #X msg 418 269 time \$1;
 #X msg 472 269 diffusion \$1;
-#X obj 104 179 technobear/tb_clds_reverb~ 0.8;
+#X obj 104 179 technobear/clds_reverb~ 0.8;
 #X connect 0 0 16 0;
 #X connect 0 1 16 1;
 #X connect 1 0 5 0;

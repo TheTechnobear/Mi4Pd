@@ -6,7 +6,6 @@
 lib.name = technobear
 
 ifneq ($(machine), armv7l)
-
 	CPPFLAGS += -DTEST
 endif
 
@@ -101,14 +100,13 @@ MISRC = \
 common.sources = ${MISRC}
 
 # input source file (class name == source file basename)
-class.sources = tbtest/tbtest.cpp \
-				tb_clds_reverb_tilde/tb_clds_reverb~.cpp \
-				tb_wrps_tilde/tb_wrps~.cpp 
+class.sources = \
+				clds_reverb~.cpp \
+				wrps~.cpp 
 
 # all extra files to be included in binary distribution of the library
-datafiles = tbtest-help.pd \
-			tbtest-meta.pd \
-			tb_clds_reverb~-help.pd \
+datafiles = \
+			clds_reverb~-help.pd \
 			README.md
 
 

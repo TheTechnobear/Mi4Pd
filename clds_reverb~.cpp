@@ -3,9 +3,9 @@
 #include "clouds/dsp/frame.h"
 #include "clouds/dsp/fx/reverb.h"
 
-static t_class *tb_clds_reverb_tilde_class;
+static t_class *clds_reverb_tilde_class;
 
-typedef struct _tb_clds_reverb_tilde {
+typedef struct _clds_reverb_tilde {
   t_object  x_obj;
 
   t_float  f_amount;
@@ -26,27 +26,27 @@ typedef struct _tb_clds_reverb_tilde {
   uint16_t reverb_buffer[32768];
   clouds::FloatFrame* iobuf;
   int iobufsz;
-} t_tb_clds_reverb_tilde;
+} t_clds_reverb_tilde;
 
 
 //define pure data methods
 extern "C"  {
-  t_int *tb_clds_reverb_tilde_perform(t_int *w);
-  void tb_clds_reverb_tilde_dsp(t_tb_clds_reverb_tilde *x, t_signal **sp);
-  void tb_clds_reverb_tilde_free(t_tb_clds_reverb_tilde *x);
-  void *tb_clds_reverb_tilde_new(t_floatarg f);
-  void tb_clds_reverb_tilde_setup(void);
-  void tb_clds_reverb_tilde_amount(t_tb_clds_reverb_tilde *x, t_floatarg f);
-  void tb_clds_reverb_tilde_gain(t_tb_clds_reverb_tilde *x, t_floatarg f);
-  void tb_clds_reverb_tilde_diffusion(t_tb_clds_reverb_tilde *x, t_floatarg f);
-  void tb_clds_reverb_tilde_time(t_tb_clds_reverb_tilde *x, t_floatarg f);
-  void tb_clds_reverb_tilde_lp(t_tb_clds_reverb_tilde *x, t_floatarg f);
+  t_int* clds_reverb_tilde_perform(t_int *w);
+  void clds_reverb_tilde_dsp(t_clds_reverb_tilde *x, t_signal **sp);
+  void clds_reverb_tilde_free(t_clds_reverb_tilde *x);
+  void* clds_reverb_tilde_new(t_floatarg f);
+  void clds_reverb_tilde_setup(void);
+  void clds_reverb_tilde_amount(t_clds_reverb_tilde *x, t_floatarg f);
+  void clds_reverb_tilde_gain(t_clds_reverb_tilde *x, t_floatarg f);
+  void clds_reverb_tilde_diffusion(t_clds_reverb_tilde *x, t_floatarg f);
+  void clds_reverb_tilde_time(t_clds_reverb_tilde *x, t_floatarg f);
+  void clds_reverb_tilde_lp(t_clds_reverb_tilde *x, t_floatarg f);
 }
 
 // puredata methods implementation -start
-t_int *tb_clds_reverb_tilde_perform(t_int *w)
+t_int* clds_reverb_tilde_perform(t_int *w)
 {
-  t_tb_clds_reverb_tilde *x = (t_tb_clds_reverb_tilde *)(w[1]);
+  t_clds_reverb_tilde *x = (t_clds_reverb_tilde *)(w[1]);
   t_sample  *in_left  =    (t_sample *)(w[2]);
   t_sample  *in_right =    (t_sample *)(w[3]);
   t_sample  *out_left =    (t_sample *)(w[4]);
@@ -80,16 +80,16 @@ t_int *tb_clds_reverb_tilde_perform(t_int *w)
   return (w + 7); // # args + 1
 }
 
-void tb_clds_reverb_tilde_dsp(t_tb_clds_reverb_tilde *x, t_signal **sp)
+void clds_reverb_tilde_dsp(t_clds_reverb_tilde *x, t_signal **sp)
 {
   // add the perform method, with all signal i/o
-  dsp_add(tb_clds_reverb_tilde_perform, 6,
+  dsp_add(clds_reverb_tilde_perform, 6,
           x,
           sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, // signal i/o (clockwise)
           sp[0]->s_n);
 }
 
-void tb_clds_reverb_tilde_free(t_tb_clds_reverb_tilde *x)
+void clds_reverb_tilde_free(t_clds_reverb_tilde *x)
 {
   delete [] x->iobuf;
 
@@ -99,9 +99,9 @@ void tb_clds_reverb_tilde_free(t_tb_clds_reverb_tilde *x)
   outlet_free(x->x_out_right);
 }
 
-void *tb_clds_reverb_tilde_new(t_floatarg f)
+void *clds_reverb_tilde_new(t_floatarg f)
 {
-  t_tb_clds_reverb_tilde *x = (t_tb_clds_reverb_tilde *) pd_new(tb_clds_reverb_tilde_class);
+  t_clds_reverb_tilde *x = (t_clds_reverb_tilde *) pd_new(clds_reverb_tilde_class);
   x->iobuf = new clouds::FloatFrame[64];
   x->iobufsz = 64;
 
@@ -120,54 +120,54 @@ void *tb_clds_reverb_tilde_new(t_floatarg f)
   return (void *)x;
 }
 
-void tb_clds_reverb_tilde_amount(t_tb_clds_reverb_tilde *x, t_floatarg f)
+void clds_reverb_tilde_amount(t_clds_reverb_tilde *x, t_floatarg f)
 {
   x->f_amount = f;
 }
-void tb_clds_reverb_tilde_gain(t_tb_clds_reverb_tilde *x, t_floatarg f)
+void clds_reverb_tilde_gain(t_clds_reverb_tilde *x, t_floatarg f)
 {
   x->f_input_gain = f;
 }
-void tb_clds_reverb_tilde_diffusion(t_tb_clds_reverb_tilde *x, t_floatarg f)
+void clds_reverb_tilde_diffusion(t_clds_reverb_tilde *x, t_floatarg f)
 {
   x->f_diffusion = f;
 }
-void tb_clds_reverb_tilde_time(t_tb_clds_reverb_tilde *x, t_floatarg f)
+void clds_reverb_tilde_time(t_clds_reverb_tilde *x, t_floatarg f)
 {
   x->f_time = f;
 }
-void tb_clds_reverb_tilde_lp(t_tb_clds_reverb_tilde *x, t_floatarg f)
+void clds_reverb_tilde_lp(t_clds_reverb_tilde *x, t_floatarg f)
 {
   x->f_lp = f;
 }
 
-void tb_clds_reverb_tilde_setup(void) {
-  tb_clds_reverb_tilde_class = class_new(gensym("tb_clds_reverb~"),
-                                         (t_newmethod)tb_clds_reverb_tilde_new,
-                                         0, sizeof(t_tb_clds_reverb_tilde),
+void clds_reverb_tilde_setup(void) {
+  clds_reverb_tilde_class = class_new(gensym("clds_reverb~"),
+                                         (t_newmethod)clds_reverb_tilde_new,
+                                         0, sizeof(t_clds_reverb_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 
-  class_addmethod(  tb_clds_reverb_tilde_class,
-                    (t_method)tb_clds_reverb_tilde_dsp,
+  class_addmethod(  clds_reverb_tilde_class,
+                    (t_method)clds_reverb_tilde_dsp,
                     gensym("dsp"), A_NULL);
-  CLASS_MAINSIGNALIN(tb_clds_reverb_tilde_class, t_tb_clds_reverb_tilde, f_dummy);
+  CLASS_MAINSIGNALIN(clds_reverb_tilde_class, t_clds_reverb_tilde, f_dummy);
 
 
-  class_addmethod(tb_clds_reverb_tilde_class,
-                  (t_method) tb_clds_reverb_tilde_amount, gensym("amount"),
+  class_addmethod(clds_reverb_tilde_class,
+                  (t_method) clds_reverb_tilde_amount, gensym("amount"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_clds_reverb_tilde_class,
-                  (t_method) tb_clds_reverb_tilde_gain, gensym("gain"),
+  class_addmethod(clds_reverb_tilde_class,
+                  (t_method) clds_reverb_tilde_gain, gensym("gain"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_clds_reverb_tilde_class,
-                  (t_method) tb_clds_reverb_tilde_time, gensym("time"),
+  class_addmethod(clds_reverb_tilde_class,
+                  (t_method) clds_reverb_tilde_time, gensym("time"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_clds_reverb_tilde_class,
-                  (t_method) tb_clds_reverb_tilde_diffusion, gensym("diffusion"),
+  class_addmethod(clds_reverb_tilde_class,
+                  (t_method) clds_reverb_tilde_diffusion, gensym("diffusion"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_clds_reverb_tilde_class,
-                  (t_method) tb_clds_reverb_tilde_lp, gensym("lp"),
+  class_addmethod(clds_reverb_tilde_class,
+                  (t_method) clds_reverb_tilde_lp, gensym("lp"),
                   A_DEFFLOAT, A_NULL);
 }
 // puredata methods implementation - end

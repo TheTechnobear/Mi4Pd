@@ -1,6 +1,0 @@
-#N canvas 648 342 450 300 10;
-#X obj 16 69 tbtest;
-#X text 13 10 prints "tbtest!" when banged.;
-#X obj 16 33 loadbang;
-#X obj 217 69 tb_clds_reverb~;
-#X connect 2 0 0 0;

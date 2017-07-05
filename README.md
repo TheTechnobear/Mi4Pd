@@ -1,35 +1,32 @@
-An example Pure Data external using [pd-lib-builder](https://github.com/pure-data/pd-lib-builder). You can use this project to bootstrap your own Pure Data external development.
+## Technobears pure data library ##
+This repo contains pure data externals that Im using
 
-## Usage ##
 
-Clone and build this example via:
+The first set are externals wrapping Mutable Instruments code used for Eurorack modules. 
 
-    git clone --recursive https://github.com/pure-data/helloworld.git
-    cd helloworld
-    make
+Its truely appreciated that Olivier Gillet / Mutable Instruments has published this code under the MIT license, allowing derivatives, its a generous act.
+As derivative works, these externals are **not** supported by Oliver/MI, please read the license in mi/LICENSE for details.
 
-Make sure you use the `--recursive` flag when checking out the repository so that the pd-lib-builder dependency is also checked out. If you forgot to add it, you can also manually fetch pd-lib-builder via:
+## Externals ##
+wrps~ - based on MI Warps 
+clds_reverb~ - based on reverb from MI Clouds
 
-    cd helloworld
-    git submodule init
-    git submodule update
+Note: these externals will not operate exactly as the Eurorack reasons for a number of technical reasons (e.g. sample rate), but I think they are still useful.
 
-_Note: The "Download zip" option on GitHub currently does not check out dependencies so pd-lib-builder will be missing in your download. The preferred method is to use git._
+## Building ##
+This build uses [pd-lib-builder](https://github.com/pure-data/pd-lib-builder/)
 
-## Build ##
+To build you will need a copy of pure data installed.
+By default, pd-lib-builder will attempt to auto-locate an install of Pure Data, to find the appropriate header files.
+If the defaults are used, then you can use
 
-You should have a copy of the pure-data source code - the following build command assumes it is in the `../pure-data` directory. [This page explains how you can get the pure-data source code](https://puredata.info/docs/developer/GettingPdSource).
+    make install 
 
-By default, pd-lib-builder will attempt to auto-locate an install of Pure Data. The following command will build the external and install the distributable files into a subdirectory called `build/helloworld`.
+This will install the externals into the library directory, under the 'technobear' library.
 
-    make install pdincludepath=../pure-data/src/ objectsdir=./build
+If your puredata setup is non-standard, you can use PDINCLUDEDIR and PDLIBDIR, e.g. for Bela you can use
+
+	make PDINCLUDEDIR=~/Bela/include/libpd/ PDLIBDIR=~/Bela/projects/pd-externals instal
+
 
 See `make help` for more details.
-
-## Distribute ##
-
-If you are using the [deken](https://github.com/pure-data/deken/) externals packaging tool you can then submit your external to the [puredata.info repository](http://puredata.info) for other people to find, like this:
-
-    deken upload ./build/helloworld
-
-You will need to have an account on the site. You probably also want to have a valid GPG key to sign the package so that users can prove that it waas created by you.

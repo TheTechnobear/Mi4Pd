@@ -7,9 +7,9 @@
 #include "warps/dsp/modulator.h"
 
 
-static t_class *tb_wrps_tilde_class;
+static t_class *wrps_tilde_class;
 
-typedef struct _tb_wrps_tilde {
+typedef struct _wrps_tilde {
   t_object  x_obj;
 
   t_float  f_dummy;
@@ -30,26 +30,26 @@ typedef struct _tb_wrps_tilde {
   warps::ShortFrame* ibuf;
   warps::ShortFrame* obuf;
   int iobufsz;
-} t_tb_wrps_tilde;
+} t_wrps_tilde;
 
 
 //define pure data methods
 extern "C"  {
-  t_int *tb_wrps_tilde_perform(t_int *w);
-  void tb_wrps_tilde_dsp(t_tb_wrps_tilde *x, t_signal **sp);
-  void tb_wrps_tilde_free(t_tb_wrps_tilde *x);
-  void *tb_wrps_tilde_new(t_floatarg f);
-  void tb_wrps_tilde_setup(void);
-  void tb_wrps_tilde_drive1(t_tb_wrps_tilde *x, t_floatarg f);
-  void tb_wrps_tilde_drive2(t_tb_wrps_tilde *x, t_floatarg f);
-  void tb_wrps_tilde_algo(t_tb_wrps_tilde *x, t_floatarg f);
-  void tb_wrps_tilde_density(t_tb_wrps_tilde *x, t_floatarg f);
+  t_int* wrps_tilde_perform(t_int *w);
+  void wrps_tilde_dsp(t_wrps_tilde *x, t_signal **sp);
+  void wrps_tilde_free(t_wrps_tilde *x);
+  void* wrps_tilde_new(t_floatarg f);
+  void wrps_tilde_setup(void);
+  void wrps_tilde_drive1(t_wrps_tilde *x, t_floatarg f);
+  void wrps_tilde_drive2(t_wrps_tilde *x, t_floatarg f);
+  void wrps_tilde_algo(t_wrps_tilde *x, t_floatarg f);
+  void wrps_tilde_density(t_wrps_tilde *x, t_floatarg f);
 }
 
 // puredata methods implementation -start
-t_int *tb_wrps_tilde_perform(t_int *w)
+t_int *wrps_tilde_perform(t_int *w)
 {
-  t_tb_wrps_tilde *x   = (t_tb_wrps_tilde *)(w[1]);
+  t_wrps_tilde *x   = (t_wrps_tilde *)(w[1]);
   t_sample  *in_left   = (t_sample *)(w[2]);
   t_sample  *in_right  = (t_sample *)(w[3]);
   t_sample  *out_left  = (t_sample *)(w[4]);
@@ -84,16 +84,16 @@ t_int *tb_wrps_tilde_perform(t_int *w)
   return (w + 7); // # args + 1
 }
 
-void tb_wrps_tilde_dsp(t_tb_wrps_tilde *x, t_signal **sp)
+void wrps_tilde_dsp(t_wrps_tilde *x, t_signal **sp)
 {
   // add the perform method, with all signal i/o
-  dsp_add(tb_wrps_tilde_perform, 6,
+  dsp_add(wrps_tilde_perform, 6,
           x,
           sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, // signal i/o (clockwise)
           sp[0]->s_n);
 }
 
-void tb_wrps_tilde_free(t_tb_wrps_tilde *x)
+void wrps_tilde_free(t_wrps_tilde *x)
 {
   delete [] x->ibuf;
   delete [] x->obuf;
@@ -104,9 +104,9 @@ void tb_wrps_tilde_free(t_tb_wrps_tilde *x)
   outlet_free(x->x_out_right);
 }
 
-void *tb_wrps_tilde_new(t_floatarg f)
+void *wrps_tilde_new(t_floatarg f)
 {
-  t_tb_wrps_tilde *x = (t_tb_wrps_tilde *) pd_new(tb_wrps_tilde_class);
+  t_wrps_tilde *x = (t_wrps_tilde *) pd_new(wrps_tilde_class);
   x->iobufsz = 64;
   x->ibuf = new warps::ShortFrame[x->iobufsz];
   x->obuf = new warps::ShortFrame[x->iobufsz];
@@ -124,47 +124,47 @@ void *tb_wrps_tilde_new(t_floatarg f)
   return (void *)x;
 }
 
-void tb_wrps_tilde_drive1(t_tb_wrps_tilde *x, t_floatarg f)
+void wrps_tilde_drive1(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_drive1 = f;
 }
-void tb_wrps_tilde_drive2(t_tb_wrps_tilde *x, t_floatarg f)
+void wrps_tilde_drive2(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_drive2 = f;
 }
-void tb_wrps_tilde_density(t_tb_wrps_tilde *x, t_floatarg f)
+void wrps_tilde_density(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_density= f;
 }
-void tb_wrps_tilde_algo(t_tb_wrps_tilde *x, t_floatarg f)
+void wrps_tilde_algo(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_algo = f;
 }
 
-void tb_wrps_tilde_setup(void) {
-  tb_wrps_tilde_class = class_new(gensym("tb_wrps~"),
-                                         (t_newmethod)tb_wrps_tilde_new,
-                                         0, sizeof(t_tb_wrps_tilde),
+void wrps_tilde_setup(void) {
+  wrps_tilde_class = class_new(gensym("wrps~"),
+                                         (t_newmethod)wrps_tilde_new,
+                                         0, sizeof(t_wrps_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 
-  class_addmethod(  tb_wrps_tilde_class,
-                    (t_method)tb_wrps_tilde_dsp,
+  class_addmethod(  wrps_tilde_class,
+                    (t_method)wrps_tilde_dsp,
                     gensym("dsp"), A_NULL);
-  CLASS_MAINSIGNALIN(tb_wrps_tilde_class, t_tb_wrps_tilde, f_dummy);
+  CLASS_MAINSIGNALIN(wrps_tilde_class, t_wrps_tilde, f_dummy);
 
 
-  class_addmethod(tb_wrps_tilde_class,
-                  (t_method) tb_wrps_tilde_drive1, gensym("drive1"),
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_drive1, gensym("drive1"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_wrps_tilde_class,
-                  (t_method) tb_wrps_tilde_drive2, gensym("drive2"),
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_drive2, gensym("drive2"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_wrps_tilde_class,
-                  (t_method) tb_wrps_tilde_density, gensym("density"),
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_density, gensym("density"),
                   A_DEFFLOAT, A_NULL);
-  class_addmethod(tb_wrps_tilde_class,
-                  (t_method) tb_wrps_tilde_algo, gensym("algo"),
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_algo, gensym("algo"),
                   A_DEFFLOAT, A_NULL);
 }
 // puredata methods implementation - end
