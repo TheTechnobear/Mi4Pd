@@ -102,7 +102,9 @@ common.sources = ${MISRC}
 # input source file (class name == source file basename)
 class.sources = \
 				clds_reverb~.cpp \
-				wrps~.cpp 
+				wrps~.cpp \
+				clds~.cpp
+				
 
 # all extra files to be included in binary distribution of the library
 datafiles = \
