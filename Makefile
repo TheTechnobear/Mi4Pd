@@ -111,6 +111,5 @@ datafiles = tbtest-help.pd \
 			tb_clds_reverb~-help.pd \
 			README.md
 
-# include Makefile.pdlibbuilder from submodule directory 'pd-lib-builder'
-PDLIBBUILDER_DIR=pd-lib-builder/
-include $(PDLIBBUILDER_DIR)/Makefile.pdlibbuilder
+
+include Makefile.pdlibbuilder
