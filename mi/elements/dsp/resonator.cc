@@ -31,7 +31,7 @@
 #include "stmlib/dsp/dsp.h"
 #include "stmlib/dsp/cosine_oscillator.h"
 
-#include "elements/drivers/debug_pin.h"
+// #include "elements/drivers/debug_pin.h"
 
 #include "elements/dsp/dsp.h"
 #include "elements/resources.h"

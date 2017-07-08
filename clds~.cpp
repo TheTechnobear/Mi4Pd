@@ -1,8 +1,10 @@
 #include "m_pd.h"
 
-#if not defined(__arm__)
-#define TEST 1
-#endif
+//IMPROVE - inlets
+//IMPROVE - variable large and small buffer
+//TODO - help file
+//TODO - types on params?
+
 
 #include "clouds/dsp/granular_processor.h"
 

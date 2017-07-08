@@ -5,13 +5,14 @@
 # library name
 lib.name = technobear
 
+#TODO - perhaps replace this in MI code with defined (__arm__), or better NEON?
 ifneq ($(machine), armv7l)
 	CPPFLAGS += -DTEST
 endif
 
-CPPFLAGS += -I mi
+CPPFLAGS += -I mi -Wno-unused-parameter -Wno-unused-local-typedefs
 
-MI_MODULES = CLOUDS WARPS
+MI_MODULES = CLOUDS WARPS ELEMENTS RINGS
 MUTABLE_INSTRUMENTS = mi
 #optional modules, here we define defaults if none supplied
 ifeq ($(MI_MODULES),)
@@ -41,15 +42,15 @@ endif
 ifneq (,$(findstring ELEMENTS,$(MI_MODULES)))
 #$(info including ELEMENTS)
 ELEMENTS_SRC = \
+       ${MUTABLE_INSTRUMENTS}/elements/elements_resources.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/multistage_envelope.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/ominous_voice.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/resonator.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/string.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/tube.cc \
        ${MUTABLE_INSTRUMENTS}/elements/dsp/exciter.cc \
-       ${MUTABLE_INSTRUMENTS}/elements/elements_resources.cc \
-       ${MUTABLE_INSTRUMENTS}/elements/part.cc \
-       ${MUTABLE_INSTRUMENTS}/elements/voice.cc 
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/part.cc \
+       ${MUTABLE_INSTRUMENTS}/elements/dsp/voice.cc 
 endif
 
 ifneq (,$(findstring CLOUDS,$(MI_MODULES)))
@@ -103,7 +104,11 @@ common.sources = ${MISRC}
 class.sources = \
 				clds_reverb~.cpp \
 				wrps~.cpp \
-				clds~.cpp
+				clds~.cpp \
+				lmnts~.cpp \
+				rngs_chorus~.cpp \
+				rngs_ensemble~.cpp \
+				rngs_reverb~.cpp 
 				
 
 # all extra files to be included in binary distribution of the library

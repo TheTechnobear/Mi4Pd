@@ -1,5 +1,9 @@
 #include "m_pd.h"
 
+//IMPROVE - inlets
+//IMPROVE - variable reverb buffer size
+
+
 #include "clouds/dsp/frame.h"
 #include "clouds/dsp/fx/reverb.h"
 
@@ -8,12 +12,13 @@ static t_class *clds_reverb_tilde_class;
 typedef struct _clds_reverb_tilde {
   t_object  x_obj;
 
+  t_float  f_dummy;
+
   t_float  f_amount;
   t_float  f_input_gain;
   t_float  f_time;
   t_float  f_diffusion;
   t_float  f_lp;
-  t_float  f_dummy;
 
   // CLASS_MAINSIGNALIN  = in_left;
   t_inlet*  x_in_right;
@@ -22,8 +27,8 @@ typedef struct _clds_reverb_tilde {
   t_outlet* x_out_right;
 
   // clouds:reverb
-  clouds::Reverb reverb;
-  uint16_t reverb_buffer[32768];
+  clouds::Reverb fx;
+  uint16_t fx_buffer[32768];
   clouds::FloatFrame* iobuf;
   int iobufsz;
 } t_clds_reverb_tilde;
@@ -59,18 +64,18 @@ t_int* clds_reverb_tilde_perform(t_int *w)
     x->iobufsz = n;
   }
 
-  x->reverb.set_amount(x->f_amount);
-  x->reverb.set_input_gain(x->f_input_gain);
-  x->reverb.set_time(x->f_time);
-  x->reverb.set_diffusion(x->f_diffusion);
-  x->reverb.set_lp(x->f_lp);
+  x->fx.set_amount(x->f_amount);
+  x->fx.set_input_gain(x->f_input_gain);
+  x->fx.set_time(x->f_time);
+  x->fx.set_diffusion(x->f_diffusion);
+  x->fx.set_lp(x->f_lp);
 
   for (int i = 0; i < n; i++) {
     x->iobuf[i].l = in_left[i];
     x->iobuf[i].r = in_right[i];
   }
 
-  x->reverb.Process(x->iobuf, n);
+  x->fx.Process(x->iobuf, n);
 
   for (int i = 0; i < n; i++) {
     out_left[i] = x->iobuf[i].l;
@@ -116,7 +121,7 @@ void *clds_reverb_tilde_new(t_floatarg f)
   x->x_out_left   = outlet_new(&x->x_obj, &s_signal);
   x->x_out_right  = outlet_new(&x->x_obj, &s_signal);
 
-  x->reverb.Init(x->reverb_buffer);
+  x->fx.Init(x->fx_buffer);
   return (void *)x;
 }
 

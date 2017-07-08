@@ -1,11 +1,10 @@
 #include "m_pd.h"
 
-#if not defined(__arm__)
-#define TEST 1
-#endif
+//IMPROVE - inlets
+//FIXME   - fixed sample rate
+//TODO - help file
 
 #include "warps/dsp/modulator.h"
-
 
 static t_class *wrps_tilde_class;
 
