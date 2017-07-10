@@ -34,7 +34,7 @@ typedef struct _wrps_tilde {
 
 //define pure data methods
 extern "C"  {
-  t_int* wrps_tilde_perform(t_int *w);
+  t_int* wrps_tilde_render(t_int *w);
   void wrps_tilde_dsp(t_wrps_tilde *x, t_signal **sp);
   void wrps_tilde_free(t_wrps_tilde *x);
   void* wrps_tilde_new(t_floatarg f);
@@ -46,7 +46,7 @@ extern "C"  {
 }
 
 // puredata methods implementation -start
-t_int *wrps_tilde_perform(t_int *w)
+t_int *wrps_tilde_render(t_int *w)
 {
   t_wrps_tilde *x   = (t_wrps_tilde *)(w[1]);
   t_sample  *in_left   = (t_sample *)(w[2]);
@@ -86,7 +86,7 @@ t_int *wrps_tilde_perform(t_int *w)
 void wrps_tilde_dsp(t_wrps_tilde *x, t_signal **sp)
 {
   // add the perform method, with all signal i/o
-  dsp_add(wrps_tilde_perform, 6,
+  dsp_add(wrps_tilde_render, 6,
           x,
           sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, // signal i/o (clockwise)
           sp[0]->s_n);

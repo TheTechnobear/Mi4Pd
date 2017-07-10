@@ -102,6 +102,7 @@ common.sources = ${MISRC}
 
 # input source file (class name == source file basename)
 class.sources = \
+				brds~.cpp \
 				clds_reverb~.cpp \
 				wrps~.cpp \
 				clds~.cpp \

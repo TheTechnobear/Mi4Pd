@@ -57,7 +57,7 @@ typedef struct _clds_tilde {
 
 //define pure data methods
 extern "C"  {
-  t_int* clds_tilde_perform(t_int *w);
+  t_int* clds_tilde_render(t_int *w);
   void clds_tilde_dsp(t_clds_tilde *x, t_signal **sp);
   void clds_tilde_free(t_clds_tilde *x);
   void* clds_tilde_new(t_floatarg f);
@@ -82,7 +82,7 @@ extern "C"  {
 }
 
 // puredata methods implementation -start
-t_int *clds_tilde_perform(t_int *w)
+t_int *clds_tilde_render(t_int *w)
 {
   t_clds_tilde *x   = (t_clds_tilde *)(w[1]);
   t_sample  *in_left   = (t_sample *)(w[2]);
@@ -160,7 +160,7 @@ t_int *clds_tilde_perform(t_int *w)
 void clds_tilde_dsp(t_clds_tilde *x, t_signal **sp)
 {
   // add the perform method, with all signal i/o
-  dsp_add(clds_tilde_perform, 6,
+  dsp_add(clds_tilde_render, 6,
           x,
           sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, // signal i/o (clockwise)
           sp[0]->s_n);
