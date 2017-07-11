@@ -21,6 +21,7 @@ typedef struct _rngs_ensemble_tilde {
   // CLASS_MAINSIGNALIN  = in_left;
   t_inlet*  x_in_right;
   t_inlet*  x_in_amount;
+  t_inlet*  x_in_depth;
   t_outlet* x_out_left;
   t_outlet* x_out_right;
 } t_rngs_ensemble_tilde;
@@ -74,6 +75,7 @@ void rngs_ensemble_tilde_free(t_rngs_ensemble_tilde *x)
 {
   inlet_free(x->x_in_right);
   inlet_free(x->x_in_amount);
+  inlet_free(x->x_in_depth);
   outlet_free(x->x_out_left);
   outlet_free(x->x_out_right);
 }
@@ -87,6 +89,7 @@ void *rngs_ensemble_tilde_new(t_floatarg f)
 
   x->x_in_right   = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
   x->x_in_amount  = floatinlet_new (&x->x_obj, &x->f_amount);
+  x->x_in_depth  = floatinlet_new (&x->x_obj, &x->f_depth);
   x->x_out_left   = outlet_new(&x->x_obj, &s_signal);
   x->x_out_right  = outlet_new(&x->x_obj, &s_signal);
 
