@@ -8,6 +8,13 @@
 #include "braids/envelope.h"
 #include "braids/vco_jitter_source.h"
 
+
+// TOOD
+// add parameters
+// trigger handling
+// sync handling
+
+
 // for signature_waveshaper, need abs
 inline int16_t abs(int16_t x) { return x <0.0f ? -x : x;}
 #include "braids/signature_waveshaper.h"
@@ -25,26 +32,13 @@ inline int constrain(int v, int vMin, int vMax) {
 typedef struct _brds_tilde {
   t_object  x_obj;
 
-  braids::MacroOscillator osc;
-  braids::Envelope envelope;
-  braids::SignatureWaveshaper ws;
-  braids::VcoJitterSource jitter_source;
-
-  int16_t   previous_pitch;
-  int16_t   previous_shape;
-  uint16_t  gain_lp;
-  bool      trigger_detected_flag;
-  bool      trigger_flag;
-  uint16_t  trigger_delay;
-
-
   t_float f_dummy;
 
   t_float f_shape;
   t_float f_pitch;
   t_float f_trig;
-  t_float t_fm;
-  t_float t_modulation;
+  t_float f_fm;
+  t_float f_modulation;
   t_float f_colour;
   t_float f_timbre;
 
@@ -70,6 +64,22 @@ typedef struct _brds_tilde {
   t_inlet*  x_in_shape;
   t_inlet*  x_in_trig;
   t_outlet* x_out;
+
+
+
+  braids::MacroOscillator osc;
+  braids::Envelope envelope;
+  braids::SignatureWaveshaper ws;
+  braids::VcoJitterSource jitter_source;
+
+  int16_t   previous_pitch;
+  int16_t   previous_shape;
+  uint16_t  gain_lp;
+  bool      trigger_detected_flag;
+  bool      trigger_flag;
+  uint16_t  trigger_delay;
+
+
 } t_brds_tilde;
 
 
@@ -89,24 +99,50 @@ extern "C"  {
 
 
 
+int getShape( float v) {
+
+  braids::MacroOscillatorShape ishape = static_cast<braids::MacroOscillatorShape>(v* (braids::MACRO_OSC_SHAPE_LAST - 1));
+  //FIX : for some reason, these all blow up
+  switch(ishape) {
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SAW: ishape = braids::MACRO_OSC_SHAPE_CSAW;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SQUARE: ishape = braids::MACRO_OSC_SHAPE_SAW_SQUARE;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_TRIANGLE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SINE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
+    default:
+      ;
+  }
+  return ishape;
+}
 
 
 // puredata methods implementation -start
-t_int* brds_tilde_perform(t_int *w)
+t_int* brds_tilde_render(t_int *w)
 {
   t_brds_tilde *x = (t_brds_tilde *)(w[1]);
   t_sample  *in_sync  =    (t_sample *)(w[2]);
   t_sample  *out =    (t_sample *)(w[3]);
   int n =  (int)(w[4]);
-
   x->envelope.Update(int(x->f_ad_attack * 8.0f ) , int(x->f_ad_decay * 8.0f) );
   uint32_t ad_value = x->envelope.Render();
+
+
+
+  int ishape = getShape(x->f_shape);
+  //FIX : for some reason, these all blow up
+  switch(ishape) {
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SAW: ishape = braids::MACRO_OSC_SHAPE_CSAW;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SQUARE: ishape = braids::MACRO_OSC_SHAPE_SAW_SQUARE;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_TRIANGLE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
+    case braids::MACRO_OSC_SHAPE_TRIPLE_SINE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
+    default:
+      ;
+  }
 
 
   if (x->f_paques) {
     x->osc.set_shape(braids::MACRO_OSC_SHAPE_QUESTION_MARK);
   } else if (x->f_meta_modulation) {
-    int16_t shape = (braids::MacroOscillatorShape) (x->f_shape * braids::MACRO_OSC_SHAPE_LAST);
+    int16_t shape = getShape(x->f_fm);
     shape -= x->f_fm_cv_offset;
     if (shape > x->previous_shape + 2 || shape < x->previous_shape - 2) {
       x->previous_shape = shape;
@@ -114,7 +150,7 @@ t_int* brds_tilde_perform(t_int *w)
       shape = x->previous_shape;
     }
     shape = braids::MACRO_OSC_SHAPE_LAST * shape >> 11;
-    shape += x->f_shape;
+    shape += ishape;
     if (shape >= braids::MACRO_OSC_SHAPE_LAST_ACCESSIBLE_FROM_META) {
       shape = braids::MACRO_OSC_SHAPE_LAST_ACCESSIBLE_FROM_META;
     } else if (shape <= 0) {
@@ -123,7 +159,7 @@ t_int* brds_tilde_perform(t_int *w)
     braids::MacroOscillatorShape osc_shape = static_cast<braids::MacroOscillatorShape>(shape);
     x->osc.set_shape(osc_shape);
   } else {
-    x->osc.set_shape((braids::MacroOscillatorShape) (x->f_shape * braids::MACRO_OSC_SHAPE_LAST));
+    x->osc.set_shape((braids::MacroOscillatorShape) (ishape));
   }
   
   int32_t timbre = int(x->f_timbre * 32768.0f);
@@ -134,9 +170,9 @@ t_int* brds_tilde_perform(t_int *w)
 
 
   int32_t pitch = x->f_pitch;
-  // if (!settings.meta_modulation()) {
-  //   pitch += settings.adc_to_fm(adc.channel(3));
-  // }
+  if (! x->f_meta_modulation) {
+    pitch += x->f_fm;
+  }
 
   // Check if the pitch has changed to cause an auto-retrigger
   int32_t pitch_delta = pitch - x->previous_pitch;
@@ -146,7 +182,7 @@ t_int* brds_tilde_perform(t_int *w)
   }
   x->previous_pitch = pitch; 
   
-  // pitch += jitter_source.Render(x->f_vco_drift);
+  pitch += x->jitter_source.Render(x->f_vco_drift);
   pitch += ad_value * x->f_ad_mod_pitch;
   
   if (pitch > 16383) {
@@ -155,9 +191,9 @@ t_int* brds_tilde_perform(t_int *w)
     pitch = 0;
   }
   
-//   if (x->f_vco_flatten) {
-//     pitch = Interpolate88(braids::lut_vco_detune, pitch << 2);
-//   }
+  if (x->f_vco_flatten) {
+    pitch = braids::Interpolate88(braids::lut_vco_detune, pitch << 2);
+  }
   x->osc.set_pitch(pitch + x->f_transposition);
 
   if (x->trigger_flag) {
@@ -215,7 +251,6 @@ t_int* brds_tilde_perform(t_int *w)
   //   }
   // }
 
-
   delete [] sync;
   delete [] outint;
 
@@ -249,13 +284,12 @@ void *brds_tilde_new(t_floatarg f)
   x->trigger_flag = false;
   x->trigger_delay = 0;
 
-
   x->f_dummy = f;
   x->f_shape = 0.0f;
   x->f_pitch = 0.0f;
   x->f_trig = 0.0f;
-  x->t_fm = 0.0f;
-  x->t_modulation = 0.0f;
+  x->f_fm = 0.0f;
+  x->f_modulation = 0.0f;
   x->f_colour = 0.0f;
   x->f_timbre = 0.0f;
   x->f_ad_attack = 0.0f;
@@ -278,6 +312,8 @@ void *brds_tilde_new(t_floatarg f)
   x->x_out   = outlet_new(&x->x_obj, &s_signal);
 
   x->osc.Init();
+  x->envelope.Init();
+  x->jitter_source.Init();
   return (void *)x;
 }
 

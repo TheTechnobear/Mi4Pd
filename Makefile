@@ -12,7 +12,7 @@ endif
 
 CPPFLAGS += -I mi -Wno-unused-parameter -Wno-unused-local-typedefs
 
-MI_MODULES = CLOUDS WARPS ELEMENTS RINGS
+MI_MODULES = CLOUDS WARPS ELEMENTS RINGS BRAIDS
 MUTABLE_INSTRUMENTS = mi
 #optional modules, here we define defaults if none supplied
 ifeq ($(MI_MODULES),)
@@ -27,6 +27,7 @@ BRAIDS_SRC = \
        ${MUTABLE_INSTRUMENTS}/braids/analog_oscillator.cc \
        ${MUTABLE_INSTRUMENTS}/braids/digital_oscillator.cc \
        ${MUTABLE_INSTRUMENTS}/braids/macro_oscillator.cc 
+
 endif
 
 ifneq (,$(findstring WARPS,$(MI_MODULES)))
