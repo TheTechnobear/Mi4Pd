@@ -94,7 +94,7 @@ t_int *clds_tilde_render(t_int *w)
   // for now restrict playback mode to working modes (granular and looping) 
   // clouds::PlaybackMode mode  = (clouds::PlaybackMode) ((param_playmode + inlet_mode) % 4) );
   clouds::PlaybackMode mode =  
-    (( (int) (x->f_mode) % 2) == 0) 
+    (x->f_mode < 0.5f) 
     ? clouds::PLAYBACK_MODE_GRANULAR 
     : clouds::PLAYBACK_MODE_LOOPING_DELAY;
   x->processor.set_playback_mode(mode);
@@ -110,7 +110,8 @@ t_int *clds_tilde_render(t_int *w)
   x->processor.mutable_parameters()->pitch   = constrain(x->f_pitch * 64.0f,-64.0f,64.0f);
 
   // restrict density to .2 to .8 for granular mode, outside this breaks up
-  float density = (mode == clouds::PLAYBACK_MODE_GRANULAR) ? (x->f_density*.6)+0.2 : density;
+  float density = constrain(x->f_density, 0.0f,1.0f);
+  density = (mode == clouds::PLAYBACK_MODE_GRANULAR) ? (density*0.6f)+0.2f : density;
   x->processor.mutable_parameters()->density = constrain(density, 0.0f, 1.0f);
 
   x->processor.mutable_parameters()->freeze = (x->f_freeze > 0.5f);
@@ -129,8 +130,11 @@ t_int *clds_tilde_render(t_int *w)
 
   x->processor.set_bypass(x->f_bypass > 0.5f);
   x->processor.set_silence(x->f_silence > 0.5f);
-  x->processor.set_num_channels(x->f_mono  < 0.5f ? 1 : 2 );
-  x->processor.set_low_fidelity(x->f_lofi > 0.5f);
+  //TODO - blowing up... fidility is probably due to downsampler
+  //x->processor.set_num_channels(x->f_mono  < 0.5f ? 1 : 2 );
+  //x->processor.set_low_fidelity(x->f_lofi > 0.5f);
+  x->processor.set_num_channels(2);
+  x->processor.set_low_fidelity(false);
 
   if (n > x->iobufsz) {
     delete [] x->ibuf;
