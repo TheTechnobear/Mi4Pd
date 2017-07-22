@@ -119,18 +119,18 @@ t_int *clds_tilde_render(t_int *w)
   x->processor.mutable_parameters()->gate = x->f_trig;
 
   bool trig = false;
-  if(x->f_trig && !x->ltrig) {
+  if((x->f_trig > 0.5)  && !x->ltrig) {
     x->ltrig = true;
     trig  = true;
-  } else if (!x->f_trig) {
+  } else if (! (x->f_trig > 0.5))  {
     x->ltrig = false;
   }
   x->processor.mutable_parameters()->trigger = trig;
 
-  x->processor.set_bypass(x->f_bypass);
-  x->processor.set_silence(x->f_silence);
-  x->processor.set_num_channels(x->f_mono ? 1 : 2 );
-  x->processor.set_low_fidelity(x->f_lofi);
+  x->processor.set_bypass(x->f_bypass > 0.5f);
+  x->processor.set_silence(x->f_silence > 0.5f);
+  x->processor.set_num_channels(x->f_mono  < 0.5f ? 1 : 2 );
+  x->processor.set_low_fidelity(x->f_lofi > 0.5f);
 
   if (n > x->iobufsz) {
     delete [] x->ibuf;
