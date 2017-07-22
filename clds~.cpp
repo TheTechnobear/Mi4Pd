@@ -113,16 +113,16 @@ t_int *clds_tilde_render(t_int *w)
   float density = (mode == clouds::PLAYBACK_MODE_GRANULAR) ? (x->f_density*.6)+0.2 : density;
   x->processor.mutable_parameters()->density = constrain(density, 0.0f, 1.0f);
 
-  x->processor.mutable_parameters()->freeze = x->f_freeze;
+  x->processor.mutable_parameters()->freeze = (x->f_freeze > 0.5f);
 
   //note the trig input is really a gate... which then feeds the trig
-  x->processor.mutable_parameters()->gate = x->f_trig;
+  x->processor.mutable_parameters()->gate = (x->f_trig > 0.5f);
 
   bool trig = false;
-  if((x->f_trig > 0.5)  && !x->ltrig) {
+  if((x->f_trig > 0.5f)  && !x->ltrig) {
     x->ltrig = true;
     trig  = true;
-  } else if (! (x->f_trig > 0.5))  {
+  } else if (! (x->f_trig > 0.5f))  {
     x->ltrig = false;
   }
   x->processor.mutable_parameters()->trigger = trig;
