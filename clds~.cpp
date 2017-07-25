@@ -11,8 +11,8 @@ inline float constrain(float v, float vMin, float vMax) {
   return std::max<float>(vMin,std::min<float>(vMax, v));
 }
 
-inline short TO_SHORTFRAME(float v)   { return (short (double(v) * 32768.0));}
-inline float FROM_SHORTFRAME(short v) { return (float(v) / 32768.0); }
+inline short TO_SHORTFRAME(float v)   { return (short (v * 16384.0f));}
+inline float FROM_SHORTFRAME(short v) { return (float(v) / 16384.0f); }
 
 static t_class *clds_tilde_class;
 

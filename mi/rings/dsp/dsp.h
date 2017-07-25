@@ -38,7 +38,8 @@ namespace rings {
   
 static const float kSampleRate = 48000.0f;
 const float a3 = 440.0f / kSampleRate;
-const size_t kMaxBlockSize = 24;
+//MSH const size_t kMaxBlockSize = 24;
+const size_t kMaxBlockSize = 512;
 
 }  // namespace rings
 

@@ -7,7 +7,7 @@ lib.name = technobear
 
 #TODO - perhaps replace this in MI code with defined (__arm__), or better NEON?
 machine := $(shell uname -m)
-ifneq (armv7l,$(machine)))
+ifneq (armv7l,$(machine))
 $(info building for $(machine) with no arm)
 	CPPFLAGS += -DTEST 
 else
