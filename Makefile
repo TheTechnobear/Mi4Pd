@@ -13,6 +13,7 @@ endif
 CPPFLAGS += -I mi -Wno-unused-parameter -Wno-unused-local-typedefs
 
 MI_MODULES = CLOUDS WARPS ELEMENTS RINGS BRAIDS
+# MI_MODULES = CLOUDS
 MUTABLE_INSTRUMENTS = mi
 #optional modules, here we define defaults if none supplied
 ifeq ($(MI_MODULES),)
@@ -102,6 +103,8 @@ MISRC = \
 common.sources = ${MISRC}
 
 # input source file (class name == source file basename)
+# class.sources =  clds~.cpp
+
 class.sources = \
 				brds~.cpp \
 				clds_reverb~.cpp \
@@ -116,6 +119,7 @@ class.sources = \
 # all extra files to be included in binary distribution of the library
 datafiles = \
 			clds_reverb~-help.pd \
+			clds~-help.pd \
 			README.md
 
 

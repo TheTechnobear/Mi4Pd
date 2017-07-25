@@ -153,8 +153,13 @@ class GranularProcessor {
     return low_fidelity_ ? 8 : 16;
   }
 
+  inline void sample_rate(float sr) {
+    reset_buffers_ = sample_rate_ != sr;
+    sample_rate_ = sr;
+  }
+
   inline float sample_rate() const {
-    return 32000.0f / \
+    return sample_rate_ / \
         (low_fidelity_ ? kDownsamplingFactor : 1);
   }
      
@@ -171,6 +176,7 @@ class GranularProcessor {
   bool reset_buffers_;
   float freeze_lp_;
   float dry_wet_;
+  float sample_rate_;
   
   void* buffer_[2];
   size_t buffer_size_[2];

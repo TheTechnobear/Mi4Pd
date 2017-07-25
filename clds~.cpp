@@ -2,7 +2,6 @@
 
 //IMPROVE - inlets
 //IMPROVE - variable large and small buffer
-//TODO - help file
 //TODO - types on params?
 
 
@@ -11,6 +10,9 @@
 inline float constrain(float v, float vMin, float vMax) {
   return std::max<float>(vMin,std::min<float>(vMax, v));
 }
+
+inline short TO_SHORTFRAME(float v)   { return (short (double(v) * 32768.0));}
+inline float FROM_SHORTFRAME(short v) { return (float(v) / 32768.0); }
 
 static t_class *clds_tilde_class;
 
@@ -43,13 +45,13 @@ typedef struct _clds_tilde {
   t_outlet* x_out_right;
 
   clouds::GranularProcessor processor;
-  bool ltrig = false;
+  bool ltrig;
   clouds::ShortFrame* ibuf;
   clouds::ShortFrame* obuf;
   int iobufsz;
 
-  static const int LARGE_BUF = 1048576;
-  static const int SMALL_BUF = 262144;
+  static const int LARGE_BUF = 131072;
+  static const int SMALL_BUF = 65536;
   uint8_t large_buff [LARGE_BUF]; 
   uint8_t small_buff [SMALL_BUF];
 } t_clds_tilde;
@@ -87,8 +89,8 @@ t_int *clds_tilde_render(t_int *w)
   t_clds_tilde *x   = (t_clds_tilde *)(w[1]);
   t_sample  *in_left   = (t_sample *)(w[2]);
   t_sample  *in_right  = (t_sample *)(w[3]);
-  t_sample  *out_left  = (t_sample *)(w[4]);
-  t_sample  *out_right = (t_sample *)(w[5]);
+  t_sample  *out_right = (t_sample *)(w[4]);
+  t_sample  *out_left  = (t_sample *)(w[5]);
   int n =  (int)(w[6]);
 
   // for now restrict playback mode to working modes (granular and looping) 
@@ -145,8 +147,8 @@ t_int *clds_tilde_render(t_int *w)
   }
 
   for (int i = 0; i < n; i++) {
-    x->ibuf[i].l = in_left[i] * 1024;
-    x->ibuf[i].r = in_right[i] * 1024;
+    x->ibuf[i].l = TO_SHORTFRAME(in_left[i]);
+    x->ibuf[i].r = TO_SHORTFRAME(in_right[i]);
   }
 
 
@@ -154,8 +156,8 @@ t_int *clds_tilde_render(t_int *w)
   x->processor.Process(x->ibuf, x->obuf,n);
 
   for (int i = 0; i < n; i++) {
-    out_left[i] = x->obuf[i].l / 1024.0f;
-    out_right[i] = x->obuf[i].r / 1024.0f;
+    out_left[i]  = FROM_SHORTFRAME(x->obuf[i].l);
+    out_right[i] = FROM_SHORTFRAME(x->obuf[i].r);
   }
 
   return (w + 7); // # args + 1
@@ -184,6 +186,8 @@ void clds_tilde_free(t_clds_tilde *x)
 void *clds_tilde_new(t_floatarg)
 {
   t_clds_tilde *x = (t_clds_tilde *) pd_new(clds_tilde_class);
+  x->ltrig = false;
+
   x->iobufsz = 64;
   x->ibuf = new clouds::ShortFrame[x->iobufsz];
   x->obuf = new clouds::ShortFrame[x->iobufsz];

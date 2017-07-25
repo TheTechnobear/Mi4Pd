@@ -39,6 +39,8 @@
 
 namespace clouds {
 
+#define DEFAULT_SAMPLE_RATE 44100.0f
+
 using namespace std;
 using namespace stmlib;
 
@@ -53,6 +55,7 @@ void GranularProcessor::Init(
   num_channels_ = 2;
   low_fidelity_ = false;
   bypass_ = false;
+  sample_rate_ = DEFAULT_SAMPLE_RATE;
   
   src_down_.Init();
   src_up_.Init();
@@ -411,7 +414,7 @@ void GranularProcessor::Prepare() {
 
     BufferAllocator allocator(workspace, workspace_size);
     diffuser_.Init(allocator.Allocate<float>(2048));
-    reverb_.Init(allocator.Allocate<uint16_t>(16384));
+    reverb_.Init(allocator.Allocate<uint16_t>(16384),sample_rate_);
     
     size_t correlator_block_size = (kMaxWSOLASize / 32) + 2;
     uint32_t* correlator_data = allocator.Allocate<uint32_t>(

@@ -121,7 +121,7 @@ void *clds_reverb_tilde_new(t_floatarg f)
   x->x_out_left   = outlet_new(&x->x_obj, &s_signal);
   x->x_out_right  = outlet_new(&x->x_obj, &s_signal);
 
-  x->fx.Init(x->fx_buffer);
+  x->fx.Init(x->fx_buffer,44100.0f);
   return (void *)x;
 }
 
