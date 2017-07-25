@@ -6,8 +6,12 @@
 lib.name = technobear
 
 #TODO - perhaps replace this in MI code with defined (__arm__), or better NEON?
-ifneq ($(machine), armv7l)
-	CPPFLAGS += -DTEST
+machine := $(shell uname -m)
+ifneq (armv7l,$(machine)))
+$(info building for $(machine) with no arm)
+	CPPFLAGS += -DTEST 
+else
+$(info building for $(machine) with arm)
 endif
 
 CPPFLAGS += -I mi -Wno-unused-parameter -Wno-unused-local-typedefs
