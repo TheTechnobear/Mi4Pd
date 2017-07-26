@@ -152,8 +152,8 @@ t_int *lmnts_tilde_render(t_int *w)
     x->part.Seed(&x->seed, 1);
   }
 
-  x->part.set_bypass(x->f_bypass);
-  x->part.set_easter_egg(x->f_easter_egg);
+  x->part.set_bypass(x->f_bypass > 0.5);
+  x->part.set_easter_egg(x->f_easter_egg > 0.5);
 
   for(int i=0;i<n;i++){
       float blow_in_sample = in_blow[i];
@@ -174,7 +174,7 @@ t_int *lmnts_tilde_render(t_int *w)
 
   }
 
-  x->state.gate       = x->f_gate;
+  x->state.gate       = ( x->f_gate > 0.5);
   x->state.note       = constrain(x->f_pitch * 64.0f, -64.0f, 64.0f);
   x->state.strength   = constrain(x->f_mod_depth  ,0.0f, 1.0f);
   x->state.modulation = constrain(x->f_mod_pitch * 60.0f, -60.0f, 60.0f);
