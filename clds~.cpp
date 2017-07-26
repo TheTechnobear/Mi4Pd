@@ -95,14 +95,19 @@ t_int *clds_tilde_render(t_int *w)
   t_sample  *out_left  = (t_sample *)(w[5]);
   int n =  (int)(w[6]);
 
+  //TODO - blowing up... fidility is probably due to downsampler
+  //x->processor.set_num_channels(x->f_mono  < 0.5f ? 1 : 2 );
+  //x->processor.set_low_fidelity(x->f_lofi > 0.5f);
+  //x->processor.set_num_channels(2);
+  x->processor.set_low_fidelity(false);
   // for now restrict playback mode to working modes (granular and looping) 
   clouds::PlaybackMode mode  = (clouds::PlaybackMode) ( int(x->f_mode) % clouds::PLAYBACK_MODE_LAST);
   if(mode!=x->processor.playback_mode()) {
     switch(mode) {
-    case clouds::PLAYBACK_MODE_GRANULAR: post("clds:granular"); break;
-    case clouds::PLAYBACK_MODE_STRETCH: post("clds:stretch"); break;
-    case clouds::PLAYBACK_MODE_LOOPING_DELAY: post("clds:looping"); break;
-    case clouds::PLAYBACK_MODE_SPECTRAL: post("clds:spectral"); break;
+    case clouds::PLAYBACK_MODE_GRANULAR: post("clds:granular"); x->processor.set_num_channels(2);break;
+    case clouds::PLAYBACK_MODE_STRETCH: post("clds:stretch"); x->processor.set_num_channels(2);break;
+    case clouds::PLAYBACK_MODE_LOOPING_DELAY: post("clds:looping"); x->processor.set_num_channels(2);break;
+    case clouds::PLAYBACK_MODE_SPECTRAL: post("clds:spectral"); x->processor.set_num_channels(1);break;
     case clouds::PLAYBACK_MODE_LAST:
     default: post("clds : unknown mode");    
     }  
@@ -144,11 +149,6 @@ t_int *clds_tilde_render(t_int *w)
 
   x->processor.set_bypass(x->f_bypass > 0.5f);
   x->processor.set_silence(x->f_silence > 0.5f);
-  //TODO - blowing up... fidility is probably due to downsampler
-  //x->processor.set_num_channels(x->f_mono  < 0.5f ? 1 : 2 );
-  //x->processor.set_low_fidelity(x->f_lofi > 0.5f);
-  x->processor.set_num_channels(2);
-  x->processor.set_low_fidelity(false);
 
   if (n > x->iobufsz) {
     delete [] x->ibuf;
