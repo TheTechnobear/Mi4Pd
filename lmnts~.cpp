@@ -237,7 +237,8 @@ void *lmnts_tilde_new(t_floatarg)
 void lmnts_tilde_setup(void) {
   lmnts_tilde_class = class_new(  gensym("lmnts~"),
                                   (t_newmethod)lmnts_tilde_new,
-                                  0, sizeof(t_lmnts_tilde),
+                                  (t_method) lmnts_tilde_free,
+                                  sizeof(t_lmnts_tilde),
                                   CLASS_DEFAULT,
                                   A_DEFFLOAT, A_NULL);
 

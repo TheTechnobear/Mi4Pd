@@ -109,7 +109,8 @@ void rngs_ensemble_tilde_depth(t_rngs_ensemble_tilde *x, t_floatarg f)
 void rngs_ensemble_tilde_setup(void) {
   rngs_ensemble_tilde_class = class_new(gensym("rngs_ensemble~"),
                                          (t_newmethod)rngs_ensemble_tilde_new,
-                                         0, sizeof(t_rngs_ensemble_tilde),
+                                         (t_method) rngs_ensemble_tilde_free,
+                                         sizeof(t_rngs_ensemble_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 

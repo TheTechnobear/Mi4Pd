@@ -130,7 +130,8 @@ void rngs_reverb_tilde_lp(t_rngs_reverb_tilde *x, t_floatarg f)
 void rngs_reverb_tilde_setup(void) {
   rngs_reverb_tilde_class = class_new(gensym("rngs_reverb~"),
                                          (t_newmethod)rngs_reverb_tilde_new,
-                                         0, sizeof(t_rngs_reverb_tilde),
+                                         (t_method)rngs_reverb_tilde_free,
+                                         sizeof(t_rngs_reverb_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 

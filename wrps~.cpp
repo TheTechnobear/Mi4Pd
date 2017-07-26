@@ -20,7 +20,6 @@ typedef struct _wrps_tilde {
 
   // CLASS_MAINSIGNALIN  = in_left;
   t_inlet*  x_in_right;
-  t_inlet*  x_in_amount;
   t_outlet* x_out_left;
   t_outlet* x_out_right;
 
@@ -98,7 +97,6 @@ void wrps_tilde_free(t_wrps_tilde *x)
   delete [] x->obuf;
 
   inlet_free(x->x_in_right);
-  inlet_free(x->x_in_amount);
   outlet_free(x->x_out_left);
   outlet_free(x->x_out_right);
 }
@@ -143,7 +141,8 @@ void wrps_tilde_algo(t_wrps_tilde *x, t_floatarg f)
 void wrps_tilde_setup(void) {
   wrps_tilde_class = class_new(gensym("wrps~"),
                                          (t_newmethod)wrps_tilde_new,
-                                         0, sizeof(t_wrps_tilde),
+                                         (t_method) wrps_tilde_free,
+                                         sizeof(t_wrps_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 

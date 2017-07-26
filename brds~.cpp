@@ -62,7 +62,6 @@ typedef struct _brds_tilde {
   // CLASS_MAINSIGNALIN  = in_sync;
   t_inlet*  x_in_pitch;
   t_inlet*  x_in_shape;
-  t_inlet*  x_in_trig;
   t_outlet* x_out;
 
 
@@ -336,8 +335,9 @@ void brds_tilde_timbre(t_brds_tilde *x, t_floatarg f)
 
 void brds_tilde_setup(void) {
   brds_tilde_class = class_new(gensym("brds~"),
-                                         (t_newmethod)brds_tilde_new,
-                                         0, sizeof(t_brds_tilde),
+                                         (t_newmethod) brds_tilde_new,
+                                         (t_method) brds_tilde_free,
+                                         sizeof(t_brds_tilde),
                                          CLASS_DEFAULT,
                                          A_DEFFLOAT, A_NULL);
 
