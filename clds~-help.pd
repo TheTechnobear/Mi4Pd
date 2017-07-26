@@ -1,6 +1,6 @@
-#N canvas 1067 409 1209 737 10;
+#N canvas 1088 359 1209 737 10;
 #X obj 201 81 vsl 15 128 0 1 0 1 empty empty mix 0 -9 0 10 -262144
--1 -1 12700 1;
+-1 -1 7700 1;
 #X obj 250 78 tgl 15 1 empty empty freeze 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 296 78 tgl 15 1 empty empty trig 17 7 0 10 -262144 -1 -1 0 1
@@ -8,13 +8,13 @@
 #X obj 354 80 vsl 15 128 0 1 0 1 empty empty position 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 416 83 vsl 15 128 0 1 0 1 empty empty size 0 -9 0 10 -262144
--1 -1 12700 1;
+-1 -1 5400 1;
 #X obj 476 80 vsl 15 128 0 1 0 1 empty empty pitch 0 -9 0 10 -262144
--1 -1 6500 1;
+-1 -1 1200 1;
 #X obj 546 83 vsl 15 128 0 1 0 1 empty empty density 0 -9 0 10 -262144
--1 -1 6900 1;
+-1 -1 3200 1;
 #X obj 612 83 vsl 15 128 0 1 0 1 empty empty texture 0 -9 0 10 -262144
--1 -1 7200 1;
+-1 -1 3800 1;
 #X obj 669 83 vsl 15 128 0 1 0 1 empty empty spread 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 725 81 vsl 15 128 0 1 0 1 empty empty feedback 0 -9 0 10 -262144
@@ -29,12 +29,9 @@
 1;
 #X obj 1070 77 tgl 15 1 empty empty lofi 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 844 78 tgl 15 1 empty empty mode 17 7 0 10 -262144 -1 -1 1 1
-;
 #X text 889 45 lofi and mono not enabled;
 #X msg 188 283 mix \$1;
 #X msg 300 283 position \$1;
-#X obj 289 460 clds~;
 #X msg 406 276 size \$1;
 #X msg 475 279 pitch \$1;
 #X msg 558 286 density \$1;
@@ -47,39 +44,42 @@
 #X msg 1063 297 bypass \$1;
 #X obj 133 329 adc~;
 #X obj 441 509 vsl 15 128 0 1 0 1 empty empty vol 0 -9 0 10 -262144
--1 -1 10600 1;
+-1 -1 12700 1;
 #X obj 292 530 *~;
 #X obj 317 528 *~;
 #X msg 966 535 \; pd dsp 1;
 #X obj 966 512 loadbang;
-#X connect 0 0 17 0;
-#X connect 3 0 18 0;
-#X connect 4 0 20 0;
-#X connect 5 0 21 0;
-#X connect 6 0 22 0;
-#X connect 7 0 23 0;
-#X connect 8 0 24 0;
-#X connect 9 0 26 0;
-#X connect 10 0 27 0;
-#X connect 11 0 29 0;
-#X connect 15 0 28 0;
-#X connect 17 0 19 0;
-#X connect 18 0 19 0;
-#X connect 19 0 32 0;
-#X connect 19 1 33 0;
-#X connect 20 0 19 0;
-#X connect 21 0 19 0;
-#X connect 22 0 19 0;
-#X connect 23 0 19 0;
-#X connect 24 0 19 0;
-#X connect 26 0 19 0;
-#X connect 27 0 19 0;
-#X connect 28 0 19 0;
-#X connect 29 0 19 0;
-#X connect 30 0 19 0;
-#X connect 30 1 19 1;
-#X connect 31 0 32 1;
-#X connect 31 0 33 1;
-#X connect 32 0 25 0;
-#X connect 33 0 25 1;
-#X connect 35 0 34 0;
+#X obj 289 460 clds~ 1.04858e+06 524288;
+#X obj 850 80 vsl 15 128 0 3 0 1 empty empty mode 0 -9 0 10 -262144
+-1 -1 0 1;
+#X connect 0 0 16 0;
+#X connect 3 0 17 0;
+#X connect 4 0 18 0;
+#X connect 5 0 19 0;
+#X connect 6 0 20 0;
+#X connect 7 0 21 0;
+#X connect 8 0 22 0;
+#X connect 9 0 24 0;
+#X connect 10 0 25 0;
+#X connect 11 0 27 0;
+#X connect 16 0 34 0;
+#X connect 17 0 34 0;
+#X connect 18 0 34 0;
+#X connect 19 0 34 0;
+#X connect 20 0 34 0;
+#X connect 21 0 34 0;
+#X connect 22 0 34 0;
+#X connect 24 0 34 0;
+#X connect 25 0 34 0;
+#X connect 26 0 34 0;
+#X connect 27 0 34 0;
+#X connect 28 0 34 0;
+#X connect 28 1 34 1;
+#X connect 29 0 30 1;
+#X connect 29 0 31 1;
+#X connect 30 0 23 0;
+#X connect 31 0 23 1;
+#X connect 33 0 32 0;
+#X connect 34 0 30 0;
+#X connect 34 1 31 0;
+#X connect 35 0 26 0;

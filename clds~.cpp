@@ -1,9 +1,9 @@
 #include "m_pd.h"
 
 //IMPROVE - inlets
-//IMPROVE - variable large and small buffer
 //TODO - types on params?
 
+static const char* clds_version = "0.4"; 
 
 #include "clouds/dsp/granular_processor.h"
 
@@ -40,7 +40,6 @@ typedef struct _clds_tilde {
 
   // CLASS_MAINSIGNALIN  = in_left;
   t_inlet*  x_in_right;
-  t_inlet*  x_in_amount;
   t_outlet* x_out_left;
   t_outlet* x_out_right;
 
@@ -52,8 +51,11 @@ typedef struct _clds_tilde {
 
   static const int LARGE_BUF = 131072;
   static const int SMALL_BUF = 65536;
-  uint8_t large_buff [LARGE_BUF]; 
-  uint8_t small_buff [SMALL_BUF];
+  uint8_t* large_buf;
+  int      large_buf_size;
+  uint8_t* small_buf;
+  int      small_buf_size;
+
 } t_clds_tilde;
 
 
@@ -62,7 +64,7 @@ extern "C"  {
   t_int* clds_tilde_render(t_int *w);
   void clds_tilde_dsp(t_clds_tilde *x, t_signal **sp);
   void clds_tilde_free(t_clds_tilde *x);
-  void* clds_tilde_new(t_floatarg f);
+  void* clds_tilde_new(t_floatarg lsize, t_floatarg ssize);
   void clds_tilde_setup(void);
 
   void clds_tilde_freeze(t_clds_tilde *x, t_floatarg);
@@ -94,11 +96,21 @@ t_int *clds_tilde_render(t_int *w)
   int n =  (int)(w[6]);
 
   // for now restrict playback mode to working modes (granular and looping) 
-  // clouds::PlaybackMode mode  = (clouds::PlaybackMode) ((param_playmode + inlet_mode) % 4) );
-  clouds::PlaybackMode mode =  
-    (x->f_mode < 0.5f) 
-    ? clouds::PLAYBACK_MODE_GRANULAR 
-    : clouds::PLAYBACK_MODE_LOOPING_DELAY;
+  clouds::PlaybackMode mode  = (clouds::PlaybackMode) ( int(x->f_mode) % clouds::PLAYBACK_MODE_LAST);
+  if(mode!=x->processor.playback_mode()) {
+    switch(mode) {
+    case clouds::PLAYBACK_MODE_GRANULAR: post("clds:granular"); break;
+    case clouds::PLAYBACK_MODE_STRETCH: post("clds:stretch"); break;
+    case clouds::PLAYBACK_MODE_LOOPING_DELAY: post("clds:looping"); break;
+    case clouds::PLAYBACK_MODE_SPECTRAL: post("clds:spectral"); break;
+    case clouds::PLAYBACK_MODE_LAST:
+    default: post("clds : unknown mode");    
+    }  
+  }
+  // clouds::PlaybackMode mode =  
+  //   (x->f_mode < 0.5f) 
+  //   ? clouds::PLAYBACK_MODE_GRANULAR 
+  //   : clouds::PLAYBACK_MODE_LOOPING_DELAY;
   x->processor.set_playback_mode(mode);
 ///
   x->processor.mutable_parameters()->position  = constrain(x->f_position,   0.0f,1.0f);
@@ -176,14 +188,15 @@ void clds_tilde_free(t_clds_tilde *x)
 {
   delete [] x->ibuf;
   delete [] x->obuf;
+  delete [] x->small_buf;
+  delete [] x->large_buf;
 
   inlet_free(x->x_in_right);
-  inlet_free(x->x_in_amount);
   outlet_free(x->x_out_left);
   outlet_free(x->x_out_right);
 }
 
-void *clds_tilde_new(t_floatarg)
+void *clds_tilde_new(t_floatarg lsize,t_floatarg ssize)
 {
   t_clds_tilde *x = (t_clds_tilde *) pd_new(clds_tilde_class);
   x->ltrig = false;
@@ -191,6 +204,10 @@ void *clds_tilde_new(t_floatarg)
   x->iobufsz = 64;
   x->ibuf = new clouds::ShortFrame[x->iobufsz];
   x->obuf = new clouds::ShortFrame[x->iobufsz];
+  x->large_buf_size = (lsize <t_clds_tilde::LARGE_BUF ? t_clds_tilde::LARGE_BUF : lsize);
+  x->large_buf = new uint8_t[x->large_buf_size];
+  x->small_buf_size =  (ssize < t_clds_tilde::SMALL_BUF ? t_clds_tilde::SMALL_BUF : ssize);;
+  x->small_buf = new uint8_t[x->small_buf_size];
 
 
   x->x_in_right   = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
@@ -215,20 +232,25 @@ void *clds_tilde_new(t_floatarg)
   x->f_lofi = 0.0f;
 
   x->processor.Init(
-    x->large_buff,x->LARGE_BUF, 
-    x->small_buff,x->SMALL_BUF);
+    x->large_buf,x->large_buf_size, 
+    x->small_buf,x->small_buf_size);
 
   x->ltrig = false;
+
+  post("clds~ version:%s, lbufsz:%d sbufsz: %d", clds_version, x->large_buf_size, x->small_buf_size);
   return (void *)x;
 }
 
 
 void clds_tilde_setup(void) {
   clds_tilde_class = class_new(gensym("clds~"),
-                                         (t_newmethod)clds_tilde_new,
-                                         0, sizeof(t_clds_tilde),
+                                         (t_newmethod) clds_tilde_new,
+                                         (t_method) clds_tilde_free, 
+                                         sizeof(t_clds_tilde),
                                          CLASS_DEFAULT,
-                                         A_DEFFLOAT, A_NULL);
+                                         A_DEFFLOAT, 
+                                         A_DEFFLOAT,
+                                         A_NULL);
 
   class_addmethod(  clds_tilde_class,
                     (t_method)clds_tilde_dsp,
