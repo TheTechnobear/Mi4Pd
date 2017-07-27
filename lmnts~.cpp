@@ -209,17 +209,40 @@ void *lmnts_tilde_new(t_floatarg)
 {
   t_lmnts_tilde *x = (t_lmnts_tilde *) pd_new(lmnts_tilde_class);
 
+  x->f_gate = 0.0;
+  x->f_pitch = 0.0;
+  x->f_contour = 0.0;
+  x->f_bow_level = 0.0f;
+  x->f_bow_timbre= 0.0f;
+  x->f_blow_level= 0.0f;
+  x->f_blow_flow= 0.0f;
+  x->f_blow_timbre= 0.0f;
+  x->f_strike_level= 0.0f;
+  x->f_strike_mallet= 0.0f;
+  x->f_strike_timbre= 0.0f;
+  x->f_resonator= 0.0f;
+  x->f_geometry= 0.0f;
+  x->f_brightness= 0.0f;
+  x->f_damping= 0.0f;
+  x->f_position= 0.0f;
+  x->f_space= 0.0f;
+  x->f_mod_pitch= 0.0f;
+  x->f_mod_depth= 0.0f;
+  x->f_seed= 1.0f;
+  x->f_bypass= 0.0f;
+  x->f_easter_egg= 0.0f;
+
   x->part.Init(x->buffer);
 
-  x->seed = 0;
-  x->part.Seed(&x->seed, 1);
+  // x->seed = 0;
+  // x->part.Seed(&x->seed, 1);
 
-  x->resonator = 0;
-  x->part.set_resonator_model(elements::ResonatorModel(x->resonator));
-  x->state.gate = false;
-  x->state.note = 0.0f;
-  x->state.modulation = 0.0f;
-  x->state.strength = 0.0f;
+  // x->resonator = 0;
+  // x->part.set_resonator_model(elements::ResonatorModel(x->resonator));
+  // x->state.gate = false;
+  // x->state.note = 0.0f;
+  // x->state.modulation = 0.0f;
+  // x->state.strength = 0.0f;
 
   x->iobufsz = 64;
   x->strike = new float[ x->iobufsz];
