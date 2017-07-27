@@ -121,7 +121,7 @@ t_int *lmnts_tilde_render(t_int *w)
 
 
   x->part.mutable_patch()->exciter_envelope_shape  = constrain(x->f_contour   ,0.0f, 1.0f);
-  x->part.mutable_patch()->exciter_bow_level    = constrain(x->f_blow_level   ,0.0f, 1.0f);
+  x->part.mutable_patch()->exciter_bow_level    = constrain(x->f_bow_level    ,0.0f, 1.0f);
   x->part.mutable_patch()->exciter_bow_timbre   = constrain(x->f_bow_timbre   ,0.0f, 0.9995f);
 
   x->part.mutable_patch()->exciter_blow_level   = constrain(x->f_blow_level   ,0.0f, 1.0f);
