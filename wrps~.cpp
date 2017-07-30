@@ -27,7 +27,7 @@ typedef struct _wrps_tilde {
   t_float f_drive1;
   t_float f_drive2;
   t_float f_algo;
-  t_float f_param;
+  t_float f_timbre;
 
   //todo
   t_float f_bypass;
@@ -61,7 +61,8 @@ extern "C"  {
   void wrps_tilde_drive1(t_wrps_tilde *x, t_floatarg f);
   void wrps_tilde_drive2(t_wrps_tilde *x, t_floatarg f);
   void wrps_tilde_algo(t_wrps_tilde *x, t_floatarg f);
-  void wrps_tilde_param(t_wrps_tilde *x, t_floatarg f);
+  void wrps_tilde_timbre(t_wrps_tilde *x, t_floatarg f);
+  void wrps_tilde_note(t_wrps_tilde *x, t_floatarg f);
 }
 
 // puredata methods implementation -start
@@ -82,22 +83,22 @@ t_int *wrps_tilde_render(t_int *w)
     x->obuf = new warps::ShortFrame[x->iobufsz];
   }
 
-  int shape = int(constrain(x->f_shape * 3.0f,0.0,3.0));
+  int shape = int(constrain((x->f_shape * 3.0f)+0.3,0.0,3.0));
   float algo = constrain(x->f_algo,0.0f,1.0f);
 
   x->processor.mutable_parameters()->carrier_shape = shape;
-  x->processor.mutable_parameters()->channel_drive[0]=constrain(x->f_drive1,0.0f,1.0f);
-  x->processor.mutable_parameters()->channel_drive[1]=constrain(x->f_drive2,0.0f,1.0f);
-  x->processor.mutable_parameters()->modulation_parameter=constrain(x->f_param,0.0f,1.0f);
-  x->processor.mutable_parameters()->modulation_algorithm=algo;
+  x->processor.mutable_parameters()->channel_drive[0] = constrain(x->f_drive1,0.0f,1.0f);
+  x->processor.mutable_parameters()->channel_drive[1] = constrain(x->f_drive2,0.0f,1.0f);
+  x->processor.mutable_parameters()->modulation_parameter = constrain(x->f_timbre,0.0f,1.0f);
+  x->processor.mutable_parameters()->modulation_algorithm = algo;
+  x->processor.mutable_parameters()->note = constrain(x->f_note,0.0f,127.0f);  
   x->processor.set_bypass(x->f_bypass > 0.5);
 
   // easter egg mode, not exposed yet
   x->processor.set_easter_egg(x->f_easter_egg > 0.5);
-  x->processor.mutable_parameters()->frequency_shift_pot = constrain(x->f_frequency_shift_pot,0.0f,1.0f);
-  x->processor.mutable_parameters()->frequency_shift_cv = constrain(x->f_frequency_shift_cv,0.0f,1.0f);
+  x->processor.mutable_parameters()->frequency_shift_pot = constrain((x->f_frequency_shift_pot * 2.0) - 1.0,-1.0,1.0f);
+  x->processor.mutable_parameters()->frequency_shift_cv = constrain((x->f_frequency_shift_cv * 2.0) - 1.0 ,-1.0,1.0f);
   x->processor.mutable_parameters()->phase_shift = constrain(x->f_phase_shift,0.0f,1.0f);
-  x->processor.mutable_parameters()->note = constrain(x->f_note,0.0f,1.0f);  
 
 
 
@@ -147,14 +148,14 @@ void *wrps_tilde_new(t_floatarg f)
   x->f_drive1 = 0.0f;
   x->f_drive2 = 0.0f;
   x->f_algo   = 0.5f;
-  x->f_param  = 0.5f;
+  x->f_timbre = 0.5f;
+  x->f_note = 0.0f;  
 
   x->f_bypass=0.0f;
   x->f_easter_egg=0.0f;
   x->f_frequency_shift_pot=0.0f;
   x->f_frequency_shift_cv=0.0f;
   x->f_phase_shift=0.0f;
-  x->f_note=0.0f;  
 
 
   x->x_in_right   = inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
@@ -173,15 +174,22 @@ void wrps_tilde_drive2(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_drive2 = f;
 }
-void wrps_tilde_param(t_wrps_tilde *x, t_floatarg f)
+void wrps_tilde_timbre(t_wrps_tilde *x, t_floatarg f)
 {
-  x->f_param= f;
+  x->f_timbre = f;
 }
 void wrps_tilde_algo(t_wrps_tilde *x, t_floatarg f)
 {
   x->f_algo = f;
 }
-
+void wrps_tilde_shape(t_wrps_tilde *x, t_floatarg f)
+{
+  x->f_shape = f;
+}
+void wrps_tilde_note(t_wrps_tilde *x, t_floatarg f)
+{
+  x->f_note = f;
+}
 void wrps_tilde_setup(void) {
   wrps_tilde_class = class_new(gensym("wrps~"),
                                          (t_newmethod)wrps_tilde_new,
@@ -203,10 +211,16 @@ void wrps_tilde_setup(void) {
                   (t_method) wrps_tilde_drive2, gensym("drive2"),
                   A_DEFFLOAT, A_NULL);
   class_addmethod(wrps_tilde_class,
-                  (t_method) wrps_tilde_param, gensym("param"),
+                  (t_method) wrps_tilde_timbre, gensym("timbre"),
                   A_DEFFLOAT, A_NULL);
   class_addmethod(wrps_tilde_class,
                   (t_method) wrps_tilde_algo, gensym("algo"),
+                  A_DEFFLOAT, A_NULL);
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_shape, gensym("shape"),
+                  A_DEFFLOAT, A_NULL);
+  class_addmethod(wrps_tilde_class,
+                  (t_method) wrps_tilde_note, gensym("note"),
                   A_DEFFLOAT, A_NULL);
 }
 // puredata methods implementation - end
