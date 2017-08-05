@@ -1,0 +1,719 @@
+#N canvas 174 339 1920 990 10;
+#X declare -path o-knob;
+#X obj 128 917 throw~ outL;
+#X obj 220 916 throw~ outR;
+#N canvas 957 228 1539 1097 presets 0;
+#X obj 452 99 int;
+#X obj 704 103 int;
+#X obj 704 81 * 2;
+#X floatatom 704 125 5 0 0 0 - - -, f 5;
+#X obj 704 146 t f f;
+#X obj 705 188 -;
+#X obj 705 208 > 0;
+#X obj 705 231 change;
+#X obj 705 253 sel 1;
+#X text 32 42 save/load;
+#X text 349 33 (in) preset number;
+#X obj 128 105 int;
+#X obj 452 77 * 10;
+#X obj 128 83 * 2;
+#X obj 128 127 sel 0 1;
+#X obj 399 270 f;
+#X obj 399 300 pack f f;
+#X obj 399 322 route 0 1;
+#X text 362 371 save;
+#X text 741 372 load;
+#X floatatom 163 105 5 0 0 0 - - -, f 5;
+#X floatatom 489 100 5 0 0 0 - - -, f 5;
+#X obj 341 516 list prepend;
+#X obj 341 688 s;
+#X obj 341 538 list split 1;
+#X msg 128 151 symbol save;
+#X msg 151 176 symbol load;
+#X obj 341 650 list trim;
+#X obj 341 624 list;
+#X obj 341 578 t b s, f 10;
+#X msg 742 82 \; screenLine3 3: L to R => OK;
+#X text 585 416 clean;
+#X text 445 518 route;
+#X text 267 421 get;
+#X msg 22 365 \; screenLine4 SAVED to PRESET \$1;
+#X msg 665 421 \; screenLine4 PRESET \$1 LOADED;
+#X msg 452 121 \; screenLine2 2: preset \$1;
+#X msg 128 217 \; screenLine1 1: operation : \$1;
+#X msg 618 796 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 888 796 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 1028 796 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 1165 796;
+#X msg 1307 796;
+#X text 25 736 Your presets are here. You can have as much presets
+as you want. Note that you can only save floats !;
+#X obj 299 420 s o-get-params;
+#X obj 341 461 r o-params;
+#X obj 229 303 r o-save;
+#X obj 617 299 r o-load;
+#X text 710 315 you can load a preset or save current parameters to
+a preset by sending a integer to o-load or o-save;
+#X msg 445 400 \; o-preset-\$1 set \; o-preset-\$1 addsemi;
+#X msg 422 490 o-preset-\$1;
+#X msg 617 361 \; o-preset-\$1 bang;
+#X obj 27 772 r o-preset-0;
+#X obj 207 772 r o-preset-1;
+#X obj 347 772 r o-preset-2;
+#X obj 477 772 r o-preset-3;
+#X obj 617 772 r o-preset-4;
+#X obj 757 772 r o-preset-5;
+#X obj 887 772 r o-preset-6;
+#X obj 1026 772 r o-preset-7;
+#X obj 1167 772 r o-preset-8;
+#X obj 1307 772 r o-preset-9;
+#X obj 974 49 cnv 15 450 80 empty empty empty 20 12 0 14 -154742 -66577
+0;
+#X text 632 12 do it ! (turn from left to right);
+#X obj 768 119 loadbang;
+#X msg 768 145 -1;
+#X text 982 54 As the knobs are only useful on this page and not a
+part of the synth \, we can use the second outlet only (no hidden update
+of the ouput value). Also \, note that these knobs do not have a unique
+name \, because it's not useful to save their state in a preset.;
+#X msg 481 862 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 347 796 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 154 419 menusave;
+#X obj 154 441 s pd-main.pd;
+#X obj 399 372 t b b f f;
+#X msg 757 796 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X msg 27 796 \; wrps_drive2 0.606299 \; wrps_drive1 0.488189 \; rngs_diff
+0 \; rngs_lp 0 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.622047
+\; brds-mix 0.708661 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \;
+wrps-shape 0.496063 \;;
+#X msg 209 803 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
+0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
+0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
+0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
+\; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
+0.496063 \;;
+#X obj 29 61 o-knob 6 1;
+#X obj 350 56 o-knob 6 2;
+#X obj 639 36 o-knob 6 3;
+#X connect 0 0 36 0;
+#X connect 0 0 16 1;
+#X connect 0 0 21 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 1;
+#X connect 4 1 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 11 0 14 0;
+#X connect 11 0 15 1;
+#X connect 11 0 20 0;
+#X connect 12 0 0 0;
+#X connect 13 0 11 0;
+#X connect 14 0 25 0;
+#X connect 14 1 26 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 34 0;
+#X connect 17 0 71 0;
+#X connect 17 1 51 0;
+#X connect 17 1 35 0;
+#X connect 22 0 24 0;
+#X connect 24 0 29 0;
+#X connect 24 1 28 1;
+#X connect 25 0 37 0;
+#X connect 26 0 37 0;
+#X connect 27 0 23 0;
+#X connect 28 0 27 0;
+#X connect 29 0 28 0;
+#X connect 29 1 23 1;
+#X connect 45 0 22 0;
+#X connect 46 0 71 0;
+#X connect 47 0 51 0;
+#X connect 50 0 22 1;
+#X connect 52 0 73 0;
+#X connect 53 0 74 0;
+#X connect 54 0 68 0;
+#X connect 55 0 67 0;
+#X connect 56 0 38 0;
+#X connect 57 0 72 0;
+#X connect 58 0 39 0;
+#X connect 59 0 40 0;
+#X connect 60 0 41 0;
+#X connect 61 0 42 0;
+#X connect 64 0 65 0;
+#X connect 65 0 5 0;
+#X connect 69 0 70 0;
+#X connect 71 0 69 0;
+#X connect 71 1 44 0;
+#X connect 71 2 50 0;
+#X connect 71 3 49 0;
+#X connect 75 1 13 0;
+#X connect 76 1 12 0;
+#X connect 77 1 30 0;
+#X connect 77 1 2 0;
+#X restore 72 275 pd presets;
+#N canvas 386 50 928 753 browsing 0;
+#X obj 49 50 r aux;
+#X obj 49 72 sel 1;
+#X msg 49 94 1;
+#X obj 49 116 +;
+#X obj 88 118 f;
+#X floatatom 49 138 5 0 0 0 - - -, f 5;
+#X obj 172 23 loadbang;
+#X msg 202 147 \; screenLine1 : \; screenLine2 : \; screenLine3 : \;
+screenLine4 : \;;
+#X msg 179 95 0;
+#X obj 49 157 t f f f b;
+#X msg 48 442 \; led \$1;
+#X msg 341 365 symbol Presets;
+#X msg 86 408 \; screenLine5 Page : \$1;
+#X obj 89 221 s o-page-selected;
+#X obj 179 117 s o-load;
+#X obj 178 54 delay 1000;
+#X text 328 164 *clear the screen*;
+#X msg 69 263 symbol Warps;
+#X msg 89 283 symbol Braids;
+#X msg 121 302 symbol Env;
+#X msg 149 323 symbol Reverb;
+#X obj 125 119 % 6;
+#X msg 160 354 symbol Drive;
+#X obj 63 240 sel 1 2 3 4 5 6;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 21 0;
+#X connect 5 0 9 0;
+#X connect 6 0 2 0;
+#X connect 6 0 15 0;
+#X connect 8 0 14 0;
+#X connect 9 0 10 0;
+#X connect 9 1 23 0;
+#X connect 9 2 13 0;
+#X connect 9 3 7 0;
+#X connect 11 0 12 0;
+#X connect 15 0 8 0;
+#X connect 17 0 12 0;
+#X connect 18 0 12 0;
+#X connect 19 0 12 0;
+#X connect 20 0 12 0;
+#X connect 21 0 3 1;
+#X connect 22 0 12 0;
+#X connect 23 0 17 0;
+#X connect 23 1 18 0;
+#X connect 23 2 19 0;
+#X connect 23 3 20 0;
+#X connect 23 4 22 0;
+#X connect 23 5 11 0;
+#X restore 57 96 pd browsing;
+#N canvas 6 50 440 271 RESERVED 0;
+#X obj 241 123 s o-get-params;
+#X obj 241 104 r o-params;
+#X obj 241 66 r o-save;
+#X obj 241 85 r o-load;
+#X obj 241 142 s o-page-selected;
+#X text 19 25 These names are reserved ! Don't use them unless you
+know what you're doing !;
+#X text 17 73 GOOD USE EXAMPLES \; -save values to preset \; -load
+preset \; -receive parameters \; -get parameters \; -select a page
+\;;
+#X text 16 178 WRONG USE EXAMPLES \; -using one of these for anything
+but one of the good examples above \; -naming your child;
+#X restore 54 129 pd RESERVED NAMES;
+#X obj 51 20 declare -path o-knob;
+#N canvas 191 120 791 940 page-selector 0;
+#X obj 95 469 s o-page-selected;
+#X obj 95 207 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 1;
+#X obj 95 50 r aux;
+#X obj 95 72 sel 1;
+#X msg 95 144 1;
+#X obj 95 166 +;
+#X obj 95 187 f;
+#X obj 95 365 t f f b;
+#X obj 150 50 loadbang;
+#X obj 150 72 t b b;
+#X msg 182 97 0;
+#X obj 182 119 s o-load;
+#X obj 44 78 inlet;
+#X obj 44 100 + 1;
+#X obj 115 344 outlet;
+#X msg 156 397 \; screenLine1 . \; screenLine2 . \; screenLine3 . \;
+screenLine4 .;
+#X msg 216 541 symbol >P1;
+#X msg 216 560 symbol >P2;
+#X msg 216 579 symbol >P3;
+#X msg 216 598 symbol >P4;
+#X msg 216 617 symbol >P5;
+#X obj 130 177 % 6;
+#X obj 118 498 sel 1 2 3 4 5 6;
+#X msg 215 645 symbol >P6;
+#X connect 1 0 7 0;
+#X connect 1 0 14 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 6 0 21 0;
+#X connect 7 0 0 0;
+#X connect 7 1 22 0;
+#X connect 7 2 15 0;
+#X connect 8 0 9 0;
+#X connect 9 0 4 0;
+#X connect 9 1 10 0;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 13 0 6 0;
+#X connect 21 0 5 1;
+#X connect 22 0 16 0;
+#X connect 22 1 17 0;
+#X connect 22 2 18 0;
+#X connect 22 3 19 0;
+#X connect 22 4 20 0;
+#X connect 22 5 23 0;
+#X restore 53 199 pd page-selector;
+#X floatatom 53 219 5 0 0 0 - - -, f 5;
+#X obj 62 329 hradio 15 1 0 8 o-save empty save -30 7 0 10 -261234
+-1 -1 0;
+#X obj 62 309 hradio 15 1 0 8 o-load empty load -30 7 0 10 -204786
+-1 -1 0;
+#X obj 53 180 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X msg 1327 63 \; pd dsp 1;
+#X obj 1327 40 loadbang;
+#X obj 52 584 r wrps_param;
+#X obj 181 686 wrps~;
+#X obj 217 478 -;
+#X obj 702 44 vsl 15 128 0 1 0 0 empty empty brds_mix 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 303 416 *~;
+#X obj 269 346 brds~;
+#X obj 185 576 +~;
+#X obj 217 407 t b f;
+#X obj 207 510 *~;
+#X obj 174 812 rngs_reverb~;
+#N canvas 646 571 1479 690 wrps 0;
+#X obj 528 238 * 100;
+#X obj 529 264 int;
+#X obj 393 525 s wrps_param;
+#X msg 161 308 shape \$1;
+#X obj 178 158 o-knob 1 1 wrps-shape;
+#X obj 265 212 * 100;
+#X obj 266 238 int;
+#X obj 198 88 inlet shape;
+#X obj 428 93 inlet algo;
+#X obj 424 149 o-knob 1 2 wrps-algo;
+#X msg 412 309 algo \$1;
+#X obj 780 240 * 100;
+#X obj 781 266 int;
+#X obj 680 95 inlet timbre;
+#X msg 664 311 timbre \$1;
+#X obj 676 151 o-knob 1 3 wrps-timbre;
+#X obj 1257 72 inlet note;
+#X msg 1219 321 note \$1;
+#X msg 511 296 \; screenLine2 Algo \$1;
+#X msg 763 298 \; screenLine3 Timbre \$1;
+#X obj 1048 244 * 100;
+#X obj 1049 270 int;
+#X obj 948 99 inlet mix;
+#X obj 663 521 outlet mix;
+#X msg 261 294 \; screenLine1 Shape \$1;
+#X msg 1031 302 \; screenLine4 Mix \$1;
+#X obj 944 155 o-knob 1 4 brds-mix;
+#X obj 1231 219 + 1;
+#X connect 0 0 1 0;
+#X connect 1 0 18 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 4 1 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 24 0;
+#X connect 7 0 4 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 1 0 0;
+#X connect 10 0 2 0;
+#X connect 11 0 12 0;
+#X connect 12 0 19 0;
+#X connect 13 0 15 0;
+#X connect 14 0 2 0;
+#X connect 15 0 14 0;
+#X connect 15 1 11 0;
+#X connect 16 0 27 0;
+#X connect 17 0 2 0;
+#X connect 20 0 21 0;
+#X connect 21 0 25 0;
+#X connect 22 0 26 0;
+#X connect 26 0 23 0;
+#X connect 26 1 20 0;
+#X connect 27 0 17 0;
+#X restore 577 325 pd wrps;
+#X obj 566 47 vsl 15 128 0 1 0 0 empty empty shape 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 616 41 vsl 15 128 0 1 0 0 empty empty algo 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 662 39 vsl 15 128 0 1 0 0 empty empty timbre 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 1105 30 r notes;
+#X obj 1103 66 unpack f f;
+#X obj 1170 184 > 0;
+#X obj 82 755 r rngs_param;
+#X obj 335 301 r brds_param;
+#N canvas 719 640 1390 650 reverb 0;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X obj 219 427 s rngs_param;
+#X obj 164 48 inlet amt;
+#X obj 469 49 inlet time;
+#X obj 841 175 * 100;
+#X obj 840 214 int;
+#X obj 1150 172 * 100;
+#X obj 1149 211 int;
+#X obj 776 52 inlet diff;
+#X obj 1085 49 inlet lp;
+#X msg 196 255 \; screenLine1 Amount \$1 %;
+#X msg 531 249 \; screenLine2 Time \$1 %;
+#X msg 838 252 \; screenLine3 Diffusion \$1 %;
+#X msg 1147 249 \; screenLine4 Cutoff \$1 %;
+#X msg 719 264 diffusion \$1;
+#X msg 412 261 time \$1;
+#X obj 1092 125 o-knob 4 4 rngs_lp;
+#X obj 783 128 o-knob 4 3 rngs_diff;
+#X obj 476 125 o-knob 4 2 rngs_time;
+#X obj 141 131 o-knob 4 1 rngs_amt;
+#X obj 50 426 outlet amt;
+#X msg 1050 263 lp \$1;
+#X connect 0 0 1 0;
+#X connect 1 0 13 0;
+#X connect 2 0 3 0;
+#X connect 3 0 14 0;
+#X connect 5 0 22 0;
+#X connect 6 0 21 0;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 9 0 10 0;
+#X connect 10 0 16 0;
+#X connect 11 0 20 0;
+#X connect 12 0 19 0;
+#X connect 17 0 4 0;
+#X connect 18 0 4 0;
+#X connect 19 0 24 0;
+#X connect 19 1 9 0;
+#X connect 20 0 17 0;
+#X connect 20 1 7 0;
+#X connect 21 0 18 0;
+#X connect 21 1 2 0;
+#X connect 22 0 23 0;
+#X connect 22 1 0 0;
+#X connect 24 0 4 0;
+#X restore 828 753 pd reverb;
+#X obj 819 536 vsl 15 128 0 1 0 0 empty empty ramt 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 935 538 vsl 15 128 0 1 0 0 empty empty rdiff 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 882 540 vsl 15 128 0 1 0 0 empty empty rtime 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 991 539 vsl 15 128 0 1 0 0 empty empty rcutoff 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 787 40 vsl 15 128 0 1 0 0 empty empty shape 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 845 39 vsl 15 128 0 1 0 0 empty empty colour 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 896 41 vsl 15 128 0 1 0 0 empty empty timbre 0 -9 0 10 -262144
+-1 -1 0 1;
+#N canvas 307 589 1479 690 brds 0;
+#X obj 528 238 * 100;
+#X obj 529 264 int;
+#X msg 161 308 shape \$1;
+#X obj 265 212 * 100;
+#X obj 266 238 int;
+#X obj 198 88 inlet shape;
+#X obj 780 240 * 100;
+#X obj 781 266 int;
+#X obj 680 95 inlet timbre;
+#X msg 664 311 timbre \$1;
+#X obj 428 93 inlet colour;
+#X msg 935 394 pitch \$1;
+#X obj 1201 84 inlet note;
+#X obj 942 335 * 128;
+#X obj 942 363 + 8252;
+#X obj 1046 182 * 48;
+#X obj 1046 206 - 24;
+#X obj 1047 235 int, f 5;
+#X msg 1042 288 \; screenLine4 Transpose \$1;
+#X obj 940 169 * 48;
+#X obj 940 193 - 24;
+#X obj 941 222 int, f 5;
+#X obj 943 253 +;
+#X obj 955 141 o-knob 2 4 brds-transpose;
+#X obj 959 85 inlet transpose;
+#X msg 511 296 \; screenLine2 Colour \$1;
+#X msg 261 294 \; screenLine1 Shape \$1;
+#X obj 393 525 s brds_param;
+#X obj 178 158 o-knob 2 1 brds-shape;
+#X obj 424 149 o-knob 2 2 brds-colour;
+#X obj 676 151 o-knob 2 3 brds-timbre;
+#X msg 412 309 colour \$1;
+#X msg 763 298 \; screenLine3 Timbre \$1;
+#X obj 944 293 - 63;
+#X connect 0 0 1 0;
+#X connect 1 0 25 0;
+#X connect 2 0 27 0;
+#X connect 3 0 4 0;
+#X connect 4 0 26 0;
+#X connect 5 0 28 0;
+#X connect 6 0 7 0;
+#X connect 7 0 32 0;
+#X connect 8 0 30 0;
+#X connect 9 0 27 0;
+#X connect 10 0 29 0;
+#X connect 11 0 27 0;
+#X connect 12 0 22 0;
+#X connect 13 0 14 0;
+#X connect 14 0 11 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 21 0 22 1;
+#X connect 22 0 33 0;
+#X connect 23 0 19 0;
+#X connect 23 1 15 0;
+#X connect 24 0 23 0;
+#X connect 28 0 2 0;
+#X connect 28 1 3 0;
+#X connect 29 0 31 0;
+#X connect 29 1 0 0;
+#X connect 30 0 9 0;
+#X connect 30 1 6 0;
+#X connect 31 0 27 0;
+#X connect 33 0 13 0;
+#X restore 815 363 pd brds;
+#X obj 945 41 vsl 15 128 0 1 0 0 empty empty transpose 0 -9 0 10 -262144
+-1 -1 6800 1;
+#X obj 483 521 vsl 15 128 0 1 0 0 empty empty attack 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 599 518 vsl 15 128 0 1 0 0 empty empty sustain 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 546 521 vsl 15 128 0 1 0 0 empty empty decay 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 655 520 vsl 15 128 0 1 0 0 empty empty release 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 180 748 *~;
+#X obj 224 743 *~;
+#X obj 49 695 print warps;
+#X obj 55 824 print rngs;
+#X obj 369 425 print brds;
+#X obj 1121 410 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+0 1;
+#X obj 142 364 loadbang;
+#X msg 151 420 1;
+#N canvas 863 531 1390 650 env 0;
+#X obj 198 217 int;
+#X obj 533 211 int;
+#X obj 863 175 * 100;
+#X obj 862 214 int;
+#X obj 1149 211 int;
+#X obj 164 48 inlet attack;
+#X obj 469 49 inlet decay;
+#X obj 776 52 inlet sustain;
+#X obj 1085 49 inlet release;
+#X obj 158 107 o-knob 3 1 env_attack;
+#X obj 476 125 o-knob 3 2 env_decay;
+#X obj 783 128 o-knob 3 3 env_sustain;
+#X obj 1092 125 o-knob 3 4 env_release;
+#X msg 838 252 \; screenLine3 Sustain \$1 %;
+#X obj 515 415 adsr 1 10 100 50 500;
+#X obj 1311 62 inlet gate;
+#X obj 543 531 outlet~ env;
+#X obj 515 468 *~;
+#X obj 132 172 * 2000;
+#X obj 1081 170 * 2000;
+#X obj 794 168 * 100;
+#X obj 793 207 int;
+#X obj 1084 211 int;
+#X obj 1150 172 * 2000;
+#X msg 1147 249 \; screenLine4 Release \$1 ms;
+#X msg 531 249 \; screenLine2 Decay \$1 ms;
+#X obj 534 172 * 2000;
+#X obj 461 208 int;
+#X obj 462 169 * 2000;
+#X obj 199 178 * 2000;
+#X obj 126 220 int;
+#X msg 196 255 \; screenLine1 Attack \$1 ms;
+#X connect 0 0 31 0;
+#X connect 1 0 25 0;
+#X connect 2 0 3 0;
+#X connect 3 0 13 0;
+#X connect 4 0 24 0;
+#X connect 5 0 9 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 12 0;
+#X connect 9 0 18 0;
+#X connect 9 1 29 0;
+#X connect 10 0 28 0;
+#X connect 10 1 26 0;
+#X connect 11 0 20 0;
+#X connect 11 1 2 0;
+#X connect 12 0 19 0;
+#X connect 12 1 23 0;
+#X connect 14 0 17 1;
+#X connect 14 0 17 0;
+#X connect 15 0 14 0;
+#X connect 17 0 16 0;
+#X connect 18 0 30 0;
+#X connect 19 0 22 0;
+#X connect 20 0 21 0;
+#X connect 21 0 14 4;
+#X connect 22 0 14 5;
+#X connect 23 0 4 0;
+#X connect 26 0 1 0;
+#X connect 27 0 14 3;
+#X connect 28 0 27 0;
+#X connect 29 0 0 0;
+#X connect 30 0 14 2;
+#X restore 492 734 pd env;
+#X obj 85 402 r~ inR;
+#X obj 130 549 r~ inL;
+#X obj 1098 532 vsl 15 128 0 1 0 0 empty empty driveR 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 1155 530 vsl 15 128 0 1 0 0 empty empty driveL 0 -9 0 10 -262144
+-1 -1 0 1;
+#N canvas 558 597 1390 650 drive 0;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X obj 841 175 * 100;
+#X obj 840 214 int;
+#X obj 1150 172 * 100;
+#X obj 1149 211 int;
+#X obj 1092 125 o-knob 4 4 rngs_lp;
+#X obj 783 128 o-knob 4 3 rngs_diff;
+#X obj 141 131 o-knob 5 1 wrps_drive1;
+#X obj 476 125 o-knob 5 2 wrps_drive2;
+#X obj 219 427 s wrps_param;
+#X msg 412 261 drive2 \$1;
+#X msg 196 255 \; screenLine1 Drive R \$1 %;
+#X msg 531 249 \; screenLine2 Drive L \$1 %;
+#X msg 99 269 drive1 \$1;
+#X msg 838 252 \; screenLine3 .;
+#X msg 1147 249 \; screenLine4 .;
+#X obj 164 48 inlet driveR;
+#X obj 469 49 inlet driveL;
+#X connect 0 0 1 0;
+#X connect 1 0 14 0;
+#X connect 2 0 3 0;
+#X connect 3 0 15 0;
+#X connect 4 0 5 0;
+#X connect 5 0 17 0;
+#X connect 6 0 7 0;
+#X connect 7 0 18 0;
+#X connect 8 1 6 0;
+#X connect 9 1 4 0;
+#X connect 10 0 16 0;
+#X connect 10 1 0 0;
+#X connect 11 0 13 0;
+#X connect 11 1 2 0;
+#X connect 13 0 12 0;
+#X connect 16 0 12 0;
+#X connect 19 0 10 0;
+#X connect 20 0 11 0;
+#X restore 1101 743 pd drive;
+#X connect 6 0 7 0;
+#X connect 10 0 6 0;
+#X connect 12 0 11 0;
+#X connect 13 0 14 0;
+#X connect 13 0 48 0;
+#X connect 14 0 46 0;
+#X connect 14 1 47 0;
+#X connect 15 0 21 1;
+#X connect 16 0 23 3;
+#X connect 17 0 19 1;
+#X connect 18 0 17 0;
+#X connect 19 0 14 1;
+#X connect 20 0 15 0;
+#X connect 20 1 15 1;
+#X connect 21 0 19 0;
+#X connect 22 0 0 0;
+#X connect 22 1 1 0;
+#X connect 23 0 17 1;
+#X connect 23 0 20 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 1;
+#X connect 26 0 23 2;
+#X connect 27 0 28 0;
+#X connect 28 0 23 4;
+#X connect 28 0 40 4;
+#X connect 28 1 29 0;
+#X connect 29 0 51 0;
+#X connect 30 0 22 0;
+#X connect 30 0 49 0;
+#X connect 31 0 18 0;
+#X connect 31 0 50 0;
+#X connect 32 0 22 2;
+#X connect 33 0 32 0;
+#X connect 34 0 32 2;
+#X connect 35 0 32 1;
+#X connect 36 0 32 3;
+#X connect 37 0 40 0;
+#X connect 38 0 40 1;
+#X connect 39 0 40 2;
+#X connect 41 0 40 3;
+#X connect 42 0 54 0;
+#X connect 43 0 54 2;
+#X connect 44 0 54 1;
+#X connect 45 0 54 3;
+#X connect 46 0 22 0;
+#X connect 47 0 22 1;
+#X connect 51 0 54 4;
+#X connect 52 0 53 0;
+#X connect 53 0 15 0;
+#X connect 54 0 47 1;
+#X connect 54 0 46 1;
+#X connect 55 0 21 0;
+#X connect 56 0 14 0;
+#X connect 57 0 59 0;
+#X connect 58 0 59 1;

@@ -1,0 +1,17 @@
+#N canvas 4 50 450 300 10;
+#X obj 116 49 inlet input;
+#X obj 257 48 inlet reset;
+#X obj 116 190 outlet;
+#X obj 116 91 spigot;
+#X obj 116 116 t a b;
+#X msg 174 106 0;
+#X msg 257 74 1;
+#X obj 321 82 loadbang;
+#X connect 0 0 3 0;
+#X connect 1 0 6 0;
+#X connect 3 0 4 0;
+#X connect 4 0 2 0;
+#X connect 4 1 5 0;
+#X connect 5 0 3 1;
+#X connect 6 0 3 1;
+#X connect 7 0 6 0;

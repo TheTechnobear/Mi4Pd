@@ -1,0 +1,15 @@
+#N canvas 8 50 450 300 10;
+#X obj 155 62 r aux;
+#X obj 155 84 t b f;
+#X obj 169 113 f;
+#X obj 226 79 r knob-page-sel;
+#X obj 134 114 f;
+#X obj 138 144 sel \$1;
+#X obj 175 175 s p\$1a;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 1 1 2 1;
+#X connect 2 0 6 0;
+#X connect 3 0 4 1;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;

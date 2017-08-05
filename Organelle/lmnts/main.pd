@@ -1,0 +1,870 @@
+#N canvas 698 126 1920 990 10;
+#X declare -path o-knob;
+#X obj 150 678 throw~ outL;
+#X obj 242 677 throw~ outR;
+#N canvas 957 228 1539 1097 presets 0;
+#X obj 452 99 int;
+#X obj 704 103 int;
+#X obj 704 81 * 2;
+#X floatatom 704 125 5 0 0 0 - - -, f 5;
+#X obj 704 146 t f f;
+#X obj 705 188 -;
+#X obj 705 208 > 0;
+#X obj 705 231 change;
+#X obj 705 253 sel 1;
+#X text 32 42 save/load;
+#X text 349 33 (in) preset number;
+#X obj 128 105 int;
+#X obj 452 77 * 10;
+#X obj 128 83 * 2;
+#X obj 128 127 sel 0 1;
+#X obj 399 270 f;
+#X obj 399 300 pack f f;
+#X obj 399 322 route 0 1;
+#X text 362 371 save;
+#X text 741 372 load;
+#X floatatom 163 105 5 0 0 0 - - -, f 5;
+#X floatatom 489 100 5 0 0 0 - - -, f 5;
+#X obj 341 516 list prepend;
+#X obj 341 688 s;
+#X obj 341 538 list split 1;
+#X msg 128 151 symbol save;
+#X msg 151 176 symbol load;
+#X obj 341 650 list trim;
+#X obj 341 624 list;
+#X obj 341 578 t b s, f 10;
+#X msg 742 82 \; screenLine3 3: L to R => OK;
+#X text 585 416 clean;
+#X text 445 518 route;
+#X text 267 421 get;
+#X msg 22 365 \; screenLine4 SAVED to PRESET \$1;
+#X msg 665 421 \; screenLine4 PRESET \$1 LOADED;
+#X msg 452 121 \; screenLine2 2: preset \$1;
+#X msg 128 217 \; screenLine1 1: operation : \$1;
+#X msg 618 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 888 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 1028 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 1165 796;
+#X msg 1307 796;
+#X text 25 736 Your presets are here. You can have as much presets
+as you want. Note that you can only save floats !;
+#X obj 299 420 s o-get-params;
+#X obj 341 461 r o-params;
+#X obj 229 303 r o-save;
+#X obj 617 299 r o-load;
+#X text 710 315 you can load a preset or save current parameters to
+a preset by sending a integer to o-load or o-save;
+#X msg 445 400 \; o-preset-\$1 set \; o-preset-\$1 addsemi;
+#X msg 422 490 o-preset-\$1;
+#X msg 617 361 \; o-preset-\$1 bang;
+#X obj 27 772 r o-preset-0;
+#X obj 207 772 r o-preset-1;
+#X obj 347 772 r o-preset-2;
+#X obj 477 772 r o-preset-3;
+#X obj 617 772 r o-preset-4;
+#X obj 757 772 r o-preset-5;
+#X obj 887 772 r o-preset-6;
+#X obj 1026 772 r o-preset-7;
+#X obj 1167 772 r o-preset-8;
+#X obj 1307 772 r o-preset-9;
+#X obj 974 49 cnv 15 450 80 empty empty empty 20 12 0 14 -154742 -66577
+0;
+#X text 632 12 do it ! (turn from left to right);
+#X obj 768 119 loadbang;
+#X msg 768 145 -1;
+#X text 982 54 As the knobs are only useful on this page and not a
+part of the synth \, we can use the second outlet only (no hidden update
+of the ouput value). Also \, note that these knobs do not have a unique
+name \, because it's not useful to save their state in a preset.;
+#X msg 481 862 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 347 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 154 419 menusave;
+#X obj 154 441 s pd-main.pd;
+#X obj 399 372 t b b f f;
+#X msg 757 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X msg 27 796 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam
+0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch 1 \; lmnts_moddepth
+0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213 \; lmnts_position
+0.299213 \; lmnts_resonator 0 \; lmnts_resonator 0 \; lmnts_damping
+0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness 0.496063 \;
+lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \; lmnts_geometry
+0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_level 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_timbre 0.433071
+\; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567 \; lmnts_strike_level
+0.464567 \; lmnts_bow_timbre 0.614173 \; lmnts_bow_timbre 0.614173
+\; lmnts_blow_flow 0.535433 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_level 0.291339
+\; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \; lmnts_bow_level
+0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch -0.307087 \; lmnts-contour
+0.330709 \; lmnts-contour 0.330709 \;;
+#X msg 209 803 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \;
+noparam 0 \; noparam 0 \; noparam 0 \; lmnts-pitch 1 \; lmnts-pitch
+1 \; lmnts_moddepth 0.322835 \; lmnts_moddepth 0.322835 \; lmnts_position
+0.299213 \; lmnts_position 0.299213 \; lmnts_resonator 0 \; lmnts_resonator
+0 \; lmnts_damping 0.708661 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_brightness 0.496063 \; lmnts_geometry 0.645669 \;
+lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_space 0.409449
+\; lmnts_strike_mallet 0 \; lmnts_strike_mallet 0 \; lmnts_strike_timbre
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_level
+0 \; lmnts_strike_mallet 0.165354 \; lmnts_strike_mallet 0.165354 \;
+lmnts_strike_timbre 0.433071 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level
+0.464567 \; lmnts_strike_level 0.464567 \; lmnts_bow_timbre 0.614173
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_flow
+0.535433 \; lmnts_blow_timbre 0.574803 \; lmnts_blow_timbre 0.574803
+\; lmnts_blow_level 0.291339 \; lmnts_blow_level 0.291339 \; lmnts_bow_level
+0.535433 \; lmnts_bow_level 0.535433 \; lmnts-pitch -0.307087 \; lmnts-pitch
+-0.307087 \; lmnts-contour 0.330709 \; lmnts-contour 0.330709 \; noparam
+0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0 \; noparam 0
+\; lmnts-pitch 1 \; lmnts_moddepth 0.322835 \; lmnts_position 0.299213
+\; lmnts_resonator 0 \; lmnts_damping 0.708661 \; lmnts_brightness
+0.496063 \; lmnts_geometry 0.645669 \; lmnts_space 0.409449 \; lmnts_strike_mallet
+0 \; lmnts_strike_timbre 0 \; lmnts_strike_level 0 \; lmnts_strike_mallet
+0.165354 \; lmnts_strike_timbre 0.433071 \; lmnts_strike_level 0.464567
+\; lmnts_bow_timbre 0.614173 \; lmnts_blow_flow 0.535433 \; lmnts_blow_timbre
+0.574803 \; lmnts_blow_level 0.291339 \; lmnts_bow_level 0.535433 \;
+lmnts-pitch -0.307087 \; lmnts-contour 0.330709 \;;
+#X obj 29 61 o-knob 7 1;
+#X obj 350 56 o-knob 7 2;
+#X obj 639 36 o-knob 7 3;
+#X connect 0 0 36 0;
+#X connect 0 0 16 1;
+#X connect 0 0 21 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 1;
+#X connect 4 1 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 11 0 14 0;
+#X connect 11 0 15 1;
+#X connect 11 0 20 0;
+#X connect 12 0 0 0;
+#X connect 13 0 11 0;
+#X connect 14 0 25 0;
+#X connect 14 1 26 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 34 0;
+#X connect 17 0 71 0;
+#X connect 17 1 51 0;
+#X connect 17 1 35 0;
+#X connect 22 0 24 0;
+#X connect 24 0 29 0;
+#X connect 24 1 28 1;
+#X connect 25 0 37 0;
+#X connect 26 0 37 0;
+#X connect 27 0 23 0;
+#X connect 28 0 27 0;
+#X connect 29 0 28 0;
+#X connect 29 1 23 1;
+#X connect 45 0 22 0;
+#X connect 46 0 71 0;
+#X connect 47 0 51 0;
+#X connect 50 0 22 1;
+#X connect 52 0 73 0;
+#X connect 53 0 74 0;
+#X connect 54 0 68 0;
+#X connect 55 0 67 0;
+#X connect 56 0 38 0;
+#X connect 57 0 72 0;
+#X connect 58 0 39 0;
+#X connect 59 0 40 0;
+#X connect 60 0 41 0;
+#X connect 61 0 42 0;
+#X connect 64 0 65 0;
+#X connect 65 0 5 0;
+#X connect 69 0 70 0;
+#X connect 71 0 69 0;
+#X connect 71 1 44 0;
+#X connect 71 2 50 0;
+#X connect 71 3 49 0;
+#X connect 75 1 13 0;
+#X connect 76 1 12 0;
+#X connect 77 1 30 0;
+#X connect 77 1 2 0;
+#X restore 72 275 pd presets;
+#N canvas 386 50 928 753 browsing 0;
+#X obj 49 50 r aux;
+#X obj 49 72 sel 1;
+#X msg 49 94 1;
+#X obj 49 116 +;
+#X obj 88 118 f;
+#X floatatom 49 138 5 0 0 0 - - -, f 5;
+#X obj 172 23 loadbang;
+#X msg 202 147 \; screenLine1 : \; screenLine2 : \; screenLine3 : \;
+screenLine4 : \;;
+#X msg 179 95 0;
+#X obj 49 157 t f f f b;
+#X msg 48 442 \; led \$1;
+#X msg 341 365 symbol Presets;
+#X msg 86 408 \; screenLine5 Page : \$1;
+#X obj 89 221 s o-page-selected;
+#X obj 179 117 s o-load;
+#X obj 178 54 delay 1000;
+#X text 328 164 *clear the screen*;
+#X obj 63 240 sel 1 2 3 4 5 6 7;
+#X msg 69 263 symbol main;
+#X msg 89 283 symbol bow;
+#X msg 121 302 symbol blow;
+#X msg 149 323 symbol strike;
+#X msg 176 345 symbol resonator;
+#X msg 199 366 symbol advanced;
+#X obj 125 119 % 7;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 24 0;
+#X connect 5 0 9 0;
+#X connect 6 0 2 0;
+#X connect 6 0 15 0;
+#X connect 8 0 14 0;
+#X connect 9 0 10 0;
+#X connect 9 1 17 0;
+#X connect 9 2 13 0;
+#X connect 9 3 7 0;
+#X connect 11 0 12 0;
+#X connect 15 0 8 0;
+#X connect 17 0 18 0;
+#X connect 17 1 19 0;
+#X connect 17 2 20 0;
+#X connect 17 3 21 0;
+#X connect 17 4 22 0;
+#X connect 17 5 23 0;
+#X connect 17 6 11 0;
+#X connect 18 0 12 0;
+#X connect 19 0 12 0;
+#X connect 20 0 12 0;
+#X connect 21 0 12 0;
+#X connect 22 0 12 0;
+#X connect 24 0 3 1;
+#X restore 57 96 pd browsing;
+#N canvas 6 50 440 271 RESERVED 0;
+#X obj 241 123 s o-get-params;
+#X obj 241 104 r o-params;
+#X obj 241 66 r o-save;
+#X obj 241 85 r o-load;
+#X obj 241 142 s o-page-selected;
+#X text 19 25 These names are reserved ! Don't use them unless you
+know what you're doing !;
+#X text 17 73 GOOD USE EXAMPLES \; -save values to preset \; -load
+preset \; -receive parameters \; -get parameters \; -select a page
+\;;
+#X text 16 178 WRONG USE EXAMPLES \; -using one of these for anything
+but one of the good examples above \; -naming your child;
+#X restore 54 129 pd RESERVED NAMES;
+#X obj 51 20 declare -path o-knob;
+#N canvas 191 120 791 940 page-selector 0;
+#X obj 95 469 s o-page-selected;
+#X obj 95 207 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 2;
+#X obj 95 50 r aux;
+#X obj 95 72 sel 1;
+#X msg 95 144 1;
+#X obj 95 166 +;
+#X obj 95 187 f;
+#X obj 95 365 t f f b;
+#X obj 150 50 loadbang;
+#X obj 150 72 t b b;
+#X msg 182 97 0;
+#X obj 182 119 s o-load;
+#X obj 44 78 inlet;
+#X obj 44 100 + 1;
+#X obj 115 344 outlet;
+#X msg 156 397 \; screenLine1 . \; screenLine2 . \; screenLine3 . \;
+screenLine4 .;
+#X msg 216 541 symbol >P1;
+#X msg 216 560 symbol >P2;
+#X msg 216 579 symbol >P3;
+#X msg 216 598 symbol >P4;
+#X msg 216 617 symbol >P5;
+#X obj 118 498 sel 1 2 3 4 5 6 7;
+#X msg 217 636 symbol >P6;
+#X msg 217 655 symbol >P7;
+#X obj 130 177 % 7;
+#X connect 1 0 7 0;
+#X connect 1 0 14 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 6 0 24 0;
+#X connect 7 0 0 0;
+#X connect 7 1 21 0;
+#X connect 7 2 15 0;
+#X connect 8 0 9 0;
+#X connect 9 0 4 0;
+#X connect 9 1 10 0;
+#X connect 10 0 11 0;
+#X connect 12 0 13 0;
+#X connect 13 0 6 0;
+#X connect 21 0 16 0;
+#X connect 21 1 17 0;
+#X connect 21 2 18 0;
+#X connect 21 3 19 0;
+#X connect 21 4 20 0;
+#X connect 21 5 22 0;
+#X connect 21 6 23 0;
+#X connect 24 0 5 1;
+#X restore 53 199 pd page-selector;
+#X floatatom 53 219 5 0 0 0 - - -, f 5;
+#X obj 62 329 hradio 15 1 0 8 o-save empty save -30 7 0 10 -261234
+-1 -1 0;
+#X obj 62 309 hradio 15 1 0 8 o-load empty load -30 7 0 10 -204786
+-1 -1 0;
+#X obj 53 180 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X obj 180 614 lmnts~;
+#X obj 54 616 print;
+#X obj 210 534 r lmnts_param;
+#X obj 841 417 vsl 15 128 0 1 0 0 empty empty position 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 561 70 vsl 15 128 0 1 0 0 empty empty contour 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 503 68 vsl 15 128 0 1 0 0 empty empty pitch 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 685 74 vsl 15 128 0 1 0 0 empty empty bow_level 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 721 89 vsl 15 128 0 1 0 0 empty empty bow_timbre 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 893 414 vsl 15 128 0 1 0 0 empty empty resonator 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 642 404 vsl 15 128 0 1 0 0 empty empty geometry 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 696 402 vsl 15 128 0 1 0 0 empty empty brightness 0 -9 0 10
+-262144 -1 -1 0 1;
+#X obj 1455 565 tgl 15 0 empty empty bypass 17 7 0 10 -262144 -1 -1
+0 1;
+#X msg 1451 598 bypass \$1;
+#X msg 1327 63 \; pd dsp 1;
+#X obj 1327 40 loadbang;
+#X obj 806 77 vsl 15 128 0 1 0 1 empty empty blow_level 0 -9 0 10 -258113
+-1 -258113 3700 1;
+#X obj 898 112 vsl 15 128 0 1 0 0 empty empty blow_flow 0 -9 0 10 -258113
+-33289 -258113 0 1;
+#X obj 846 98 vsl 15 128 0 1 0 0 empty empty blow_timbre 0 -9 0 10
+-258113 -1 -258113 0 1;
+#X obj 973 68 vsl 15 128 0 1 0 0 empty empty strike_level 0 -9 0 10
+-4032 -1 -4032 0 1;
+#X obj 1064 105 vsl 15 128 0 1 0 0 empty empty blow_mallet 0 -9 0 10
+-4032 -1 -4032 0 1;
+#X obj 1014 88 vsl 15 128 0 1 0 0 empty empty strike_timbre 0 -9 0
+10 -4032 -1 -4032 0 1;
+#X obj 761 404 vsl 15 128 0 1 0 0 empty empty damping 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 597 402 vsl 15 128 0 1 0 0 empty empty space 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 958 411 vsl 15 128 0 1 0 0 empty empty mod_pitch 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 1023 415 vsl 15 128 0 1 0 0 empty empty mod_depth 0 -9 0 10
+-262144 -1 -1 0 1;
+#X obj 1218 552 tgl 15 0 empty empty easter_egg 17 7 0 10 -262144 -1
+-1 0 1;
+#X msg 1214 592 easter_egg \$1;
+#X obj 1342 463 vsl 15 128 0 32768 0 0 empty empty seed 0 -9 0 10 -262144
+-1 -1 0 1;
+#X msg 1342 612 seed \$1;
+#N canvas 736 710 1059 447 bowpage 1;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 164 48 inlet bowlevel;
+#X obj 469 49 inlet bowtimbre;
+#X obj 141 131 o-knob 2 1 lmnts_bow_level;
+#X msg 51 264 bow_level \$1;
+#X msg 412 261 bow_timbre \$1;
+#X obj 358 332 s lmnts_param;
+#X msg 196 255 \; screenLine1 bow level \$1 %;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X msg 531 249 \; screenLine2 bow timbre \$1 %;
+#X msg 753 135 \; screenLine3 .;
+#X msg 892 134 \; screenLine4 .;
+#X obj 731 90 o-knob 2 3 noparam;
+#X obj 870 89 o-knob 2 4 noparam;
+#X obj 476 125 o-knob 2 2 lmnts_bow_timbre;
+#X connect 0 0 1 0;
+#X connect 1 0 8 0;
+#X connect 2 0 4 0;
+#X connect 3 0 16 0;
+#X connect 4 0 5 0;
+#X connect 4 1 0 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 14 1 12 0;
+#X connect 15 1 13 0;
+#X connect 16 0 6 0;
+#X connect 16 1 9 0;
+#X restore 685 291 pd bowpage;
+#N canvas 617 514 1479 690 mainpage 0;
+#X msg 737 315 contour \$1;
+#X obj 749 155 o-knob 1 2 lmnts-contour;
+#X obj 853 244 * 100;
+#X obj 854 270 int;
+#X obj 523 94 inlet pitch;
+#X obj 753 99 inlet contour;
+#X obj 721 509 s lmnts_param;
+#X msg 486 314 pitch \$1;
+#X obj 492 176 * 48;
+#X obj 492 200 - 24;
+#X obj 485 244 / 64;
+#X obj 486 283 +;
+#X obj 604 186 * 48;
+#X obj 604 210 - 24;
+#X obj 597 254 / 64;
+#X obj 84 327 t b f;
+#X obj 87 83 r notes;
+#X obj 85 119 unpack f f;
+#X obj 82 269 spigot 0;
+#X obj 84 222 / 64;
+#X msg 112 401 gate \$1;
+#X obj 84 167 - 60;
+#X obj 130 359 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 152 237 > 0;
+#X msg 586 300 \; screenLine1 pitch \$1;
+#X msg 1052 185 \; screenLine3 .;
+#X obj 1030 140 o-knob 1 3 noparam;
+#X obj 1169 139 o-knob 1 4 noparam;
+#X msg 1191 184 \; screenLine4 .;
+#X msg 836 302 \; screenLine2 contour \$1;
+#X obj 492 156 o-knob 1 1 lmnts-pitch;
+#X connect 0 0 6 0;
+#X connect 1 0 0 0;
+#X connect 1 1 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 29 0;
+#X connect 4 0 30 0;
+#X connect 5 0 1 0;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 7 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 24 0;
+#X connect 15 0 11 0;
+#X connect 15 1 11 1;
+#X connect 16 0 17 0;
+#X connect 17 0 21 0;
+#X connect 17 1 18 1;
+#X connect 17 1 23 0;
+#X connect 18 0 15 0;
+#X connect 19 0 18 0;
+#X connect 20 0 6 0;
+#X connect 21 0 19 0;
+#X connect 22 0 20 0;
+#X connect 23 0 22 0;
+#X connect 26 1 25 0;
+#X connect 27 1 28 0;
+#X connect 30 0 8 0;
+#X connect 30 1 12 0;
+#X restore 505 285 pd mainpage;
+#N canvas 603 642 1340 452 blowpage 0;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 358 332 s lmnts_param;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X msg 66 264 blow_level \$1;
+#X msg 752 263 blow_flow \$1;
+#X obj 141 131 o-knob 3 1 lmnts_blow_level;
+#X obj 476 125 o-knob 3 2 lmnts_blow_timbre;
+#X msg 196 255 \; screenLine1 blow level \$1 %;
+#X msg 412 261 blow_timbre \$1;
+#X obj 850 159 * 100;
+#X obj 849 198 int;
+#X obj 469 49 inlet blowtimbre;
+#X obj 796 47 inlet blowflow;
+#X obj 164 52 inlet blowlevel;
+#X obj 792 112 o-knob 3 3 lmnts_blow_flow;
+#X msg 531 249 \; screenLine2 blow timbre \$1 %;
+#X msg 847 248 \; screenLine3 blow flow \$1 %;
+#X msg 1191 184 \; screenLine4 .;
+#X obj 1169 139 o-knob 3 4 noparam;
+#X connect 0 0 1 0;
+#X connect 1 0 9 0;
+#X connect 3 0 4 0;
+#X connect 4 0 17 0;
+#X connect 5 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 5 0;
+#X connect 7 1 0 0;
+#X connect 8 0 10 0;
+#X connect 8 1 3 0;
+#X connect 10 0 2 0;
+#X connect 11 0 12 0;
+#X connect 12 0 18 0;
+#X connect 13 0 8 0;
+#X connect 14 0 16 0;
+#X connect 15 0 7 0;
+#X connect 16 0 6 0;
+#X connect 16 1 11 0;
+#X connect 20 1 19 0;
+#X restore 815 288 pd blowpage;
+#N canvas 587 549 1430 634 strikepage 0;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 358 332 s lmnts_param;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X obj 850 159 * 100;
+#X obj 849 198 int;
+#X obj 164 52 inlet strikelevel;
+#X obj 141 131 o-knob 4 1 lmnts_strike_level;
+#X msg 196 255 \; screenLine1 strike level \$1 %;
+#X msg 66 268 strike_level \$1;
+#X obj 469 49 inlet striketimbre;
+#X obj 476 125 o-knob 4 2 lmnts_strike_timbre;
+#X msg 752 263 strike_mallet \$1;
+#X obj 792 112 o-knob 4 3 lmnts_strike_mallet;
+#X obj 796 47 inlet strikemallet;
+#X msg 531 249 \; screenLine2 strike timbre \$1 %;
+#X msg 873 249 \; screenLine3 strike mallet \$1 %;
+#X msg 412 261 strike_timbre \$1;
+#X msg 1191 184 \; screenLine4 .;
+#X obj 1169 139 o-knob 4 4 noparam;
+#X connect 0 0 1 0;
+#X connect 1 0 9 0;
+#X connect 3 0 4 0;
+#X connect 4 0 16 0;
+#X connect 5 0 6 0;
+#X connect 6 0 17 0;
+#X connect 7 0 8 0;
+#X connect 8 0 10 0;
+#X connect 8 1 0 0;
+#X connect 10 0 2 0;
+#X connect 11 0 12 0;
+#X connect 12 0 18 0;
+#X connect 12 1 3 0;
+#X connect 13 0 2 0;
+#X connect 14 0 13 0;
+#X connect 14 1 5 0;
+#X connect 15 0 14 0;
+#X connect 18 0 2 0;
+#X connect 20 1 19 0;
+#X restore 968 289 pd strikepage;
+#X obj 50 532 r~ inL;
+#X obj 122 532 r~ inR;
+#X obj 1310 769 s lmnts_param;
+#X text 1209 413 currently not on organelle ui;
+#N canvas 521 691 1430 634 resonpage 0;
+#X obj 199 178 * 100;
+#X obj 198 217 int;
+#X obj 422 388 s lmnts_param;
+#X obj 534 172 * 100;
+#X obj 533 211 int;
+#X obj 850 159 * 100;
+#X obj 849 198 int;
+#X obj 164 52 inlet space;
+#X msg 196 255 \; screenLine1 space \$1 %;
+#X msg 66 268 space \$1;
+#X obj 141 131 o-knob 5 1 lmnts_space;
+#X obj 469 49 inlet geometry;
+#X obj 476 125 o-knob 5 2 lmnts_geometry;
+#X msg 531 249 \; screenLine2 geometry \$1 %;
+#X msg 412 261 geometry \$1;
+#X msg 752 263 brightness \$1;
+#X msg 873 249 \; screenLine3 brightness \$1 %;
+#X obj 792 112 o-knob 5 3 lmnts_brightness;
+#X obj 796 47 inlet brightness;
+#X obj 1193 162 * 100;
+#X obj 1192 201 int;
+#X obj 1139 50 inlet damping;
+#X msg 1095 266 damping \$1;
+#X msg 1216 252 \; screenLine4 damping \$1 %;
+#X obj 1135 115 o-knob 5 4 lmnts_damping;
+#X connect 0 0 1 0;
+#X connect 1 0 8 0;
+#X connect 3 0 4 0;
+#X connect 4 0 13 0;
+#X connect 5 0 6 0;
+#X connect 6 0 16 0;
+#X connect 7 0 10 0;
+#X connect 9 0 2 0;
+#X connect 10 0 9 0;
+#X connect 10 1 0 0;
+#X connect 11 0 12 0;
+#X connect 12 0 14 0;
+#X connect 12 1 3 0;
+#X connect 14 0 2 0;
+#X connect 15 0 2 0;
+#X connect 17 0 15 0;
+#X connect 17 1 5 0;
+#X connect 18 0 17 0;
+#X connect 19 0 20 0;
+#X connect 20 0 23 0;
+#X connect 21 0 24 0;
+#X connect 22 0 2 0;
+#X connect 24 0 22 0;
+#X connect 24 1 19 0;
+#X restore 621 627 pd resonpage;
+#N canvas 769 761 1704 724 advpage 0;
+#X obj 422 388 s lmnts_param;
+#X obj 182 153 * 100;
+#X obj 181 192 int;
+#X obj 1193 162 * 100;
+#X obj 1192 201 int;
+#X msg 1216 252 \; screenLine4 mod depth \$1 %;
+#X msg 1095 266 mod_depth \$1;
+#X obj 441 159 * 3;
+#X obj 441 186 + 0.2;
+#X msg 413 253 resonator \$1;
+#X obj 440 210 int;
+#X obj 553 150 * 3;
+#X obj 553 177 + 0.2;
+#X obj 552 201 int;
+#X msg 60 242 position \$1;
+#X obj 117 30 inlet position;
+#X obj 511 37 inlet resonsator;
+#X obj 779 46 inlet modpitch;
+#X obj 1135 115 o-knob 6 4 lmnts_moddepth;
+#X obj 1139 50 inlet modepth;
+#X obj 761 115 * 48;
+#X obj 761 139 - 24;
+#X obj 754 183 / 64;
+#X obj 755 222 +;
+#X obj 873 125 * 48;
+#X obj 873 149 - 24;
+#X obj 866 193 / 64;
+#X msg 755 253 mod_pitch \$1;
+#X msg 855 239 \; screenLine3 mod pitch \$1;
+#X obj 761 95 o-knob 6 3 lmnts-pitch;
+#X text 474 289 disabled;
+#X msg 543 240 \; screenLine2 .;
+#X msg 179 230 \; screenLine1 position \$1 %;
+#X obj 124 106 o-knob 6 1 lmnts_position;
+#X obj 488 116 o-knob 6 2 lmnts_resonator;
+#X connect 1 0 2 0;
+#X connect 2 0 32 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 0 0;
+#X connect 7 0 8 0;
+#X connect 8 0 10 0;
+#X connect 10 0 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 13 0;
+#X connect 13 0 31 0;
+#X connect 14 0 0 0;
+#X connect 15 0 33 0;
+#X connect 16 0 34 0;
+#X connect 17 0 29 0;
+#X connect 18 0 6 0;
+#X connect 18 1 3 0;
+#X connect 19 0 18 0;
+#X connect 20 0 21 0;
+#X connect 21 0 22 0;
+#X connect 22 0 23 0;
+#X connect 23 0 27 0;
+#X connect 24 0 25 0;
+#X connect 25 0 26 0;
+#X connect 26 0 28 0;
+#X connect 27 0 0 0;
+#X connect 29 0 20 0;
+#X connect 29 1 24 0;
+#X connect 33 0 14 0;
+#X connect 33 1 1 0;
+#X connect 34 0 7 0;
+#X connect 34 1 11 0;
+#X restore 874 752 pd advpage;
+#X connect 6 0 7 0;
+#X connect 10 0 6 0;
+#X connect 11 0 0 0;
+#X connect 11 1 1 0;
+#X connect 13 0 11 0;
+#X connect 13 0 12 0;
+#X connect 14 0 49 0;
+#X connect 15 0 41 1;
+#X connect 16 0 41 0;
+#X connect 17 0 40 0;
+#X connect 18 0 40 1;
+#X connect 19 0 49 1;
+#X connect 20 0 48 1;
+#X connect 21 0 48 2;
+#X connect 22 0 23 0;
+#X connect 23 0 46 0;
+#X connect 25 0 24 0;
+#X connect 26 0 42 0;
+#X connect 27 0 42 2;
+#X connect 28 0 42 1;
+#X connect 29 0 43 0;
+#X connect 30 0 43 2;
+#X connect 31 0 43 1;
+#X connect 32 0 48 3;
+#X connect 33 0 48 0;
+#X connect 34 0 49 2;
+#X connect 35 0 49 3;
+#X connect 36 0 37 0;
+#X connect 37 0 46 0;
+#X connect 38 0 39 0;
+#X connect 39 0 46 0;
+#X connect 44 0 11 0;
+#X connect 45 0 11 1;
