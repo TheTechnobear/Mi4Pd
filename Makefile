@@ -16,7 +16,7 @@ endif
 
 CPPFLAGS += -I mi -Wno-unused-parameter -Wno-unused-local-typedefs
 
-MI_MODULES = CLOUDS WARPS ELEMENTS RINGS BRAIDS
+MI_MODULES = RINGS CLOUDS WARPS ELEMENTS RINGS BRAIDS
 # MI_MODULES = CLOUDS
 MUTABLE_INSTRUMENTS = mi
 #optional modules, here we define defaults if none supplied
@@ -74,7 +74,12 @@ endif
 ifneq (,$(findstring RINGS,$(MI_MODULES)))
 #$(info  including RINGS)
 RINGS_SRC = \
-       ${MUTABLE_INSTRUMENTS}/rings/rings_resources.cc 
+       ${MUTABLE_INSTRUMENTS}/rings/rings_resources.cc \
+       ${MUTABLE_INSTRUMENTS}/rings/dsp/fm_voice.cc \
+       ${MUTABLE_INSTRUMENTS}/rings/dsp/resonator.cc \
+       ${MUTABLE_INSTRUMENTS}/rings/dsp/part.cc \
+       ${MUTABLE_INSTRUMENTS}/rings/dsp/string.cc \
+       ${MUTABLE_INSTRUMENTS}/rings/dsp/string_synth_part.cc
 endif
 
 ifneq (,$(findstring STREAMS,$(MI_MODULES)))
@@ -110,6 +115,7 @@ common.sources = ${MISRC}
 # class.sources =  clds~.cpp
 
 class.sources = \
+				rngs~.cpp \
 				brds~.cpp \
 				clds_reverb~.cpp \
 				wrps~.cpp \
