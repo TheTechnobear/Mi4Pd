@@ -1,4 +1,4 @@
-#N canvas 549 230 1920 990 10;
+#N canvas 546 228 1920 990 10;
 #X declare -path o-knob;
 #X obj 128 917 throw~ outL;
 #X obj 220 916 throw~ outR;
@@ -112,13 +112,13 @@ name \, because it's not useful to save their state in a preset.;
 0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.590551
 \; brds-mix 0 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \; wrps-shape
 0.496063 \;;
-#X msg 27 796 \; wrps_drive2 0.606299 \; wrps_drive1 0.488189 \; rngs_diff
-0 \; rngs_lp 0 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
-0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
-0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
-0.283465 \; rngs_time 0.622047 \; rngs_diff 0.338583 \; rngs_lp 0.622047
-\; brds-mix 0.708661 \; wrps-timbre 0.346457 \; wrps-algo 0.11811 \;
-wrps-shape 0.496063 \;;
+#X msg 27 796 \; wrps_drive1 0.567518 \; wrps_drive2 0.667326 \; null
+0.0655391 \; wrps_gate 0.0528184 \; env_release 0.00584961 \; env_sustain
+0.199596 \; env_decay 0.186875 \; env_attack 0.0117207 \; brds-timbre
+0.172197 \; brds-colour 0.6321 \; brds-shape 0.799426 \; brds-transpose
+0.24265 \; rngs_amt 0.260264 \; rngs_time 0.723102 \; rngs_diff 0.232865
+\; rngs_lp 0.468688 \; brds-mix 0.73093 \; wrps-timbre 0.414869 \;
+wrps-algo 0.15067 \; wrps-shape 0.145777 \;;
 #X msg 209 803 \; env_release -0.001 \; env_sustain 0.423676 \; env_decay
 0.42074 \; env_attack -2.14844e-05 \; brds-timbre 0.988279 \; brds-colour
 0.386492 \; brds-shape 0.983387 \; brds-transpose 0.514678 \; rngs_amt
@@ -188,7 +188,7 @@ wrps-shape 0.496063 \;;
 #X connect 77 1 30 0;
 #X connect 77 1 2 0;
 #X restore 72 275 pd presets;
-#N canvas 386 50 928 753 browsing 0;
+#N canvas 383 51 928 753 browsing 1;
 #X obj 49 50 r aux;
 #X obj 49 72 sel 1;
 #X msg 49 94 1;
@@ -212,8 +212,8 @@ screenLine4 : \;;
 #X msg 121 302 symbol Env;
 #X msg 149 323 symbol Reverb;
 #X obj 125 119 % 6;
-#X msg 160 354 symbol Drive;
 #X obj 63 240 sel 1 2 3 4 5 6;
+#X msg 160 354 symbol Extra;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -225,7 +225,7 @@ screenLine4 : \;;
 #X connect 6 0 15 0;
 #X connect 8 0 14 0;
 #X connect 9 0 10 0;
-#X connect 9 1 23 0;
+#X connect 9 1 22 0;
 #X connect 9 2 13 0;
 #X connect 9 3 7 0;
 #X connect 11 0 12 0;
@@ -235,13 +235,13 @@ screenLine4 : \;;
 #X connect 19 0 12 0;
 #X connect 20 0 12 0;
 #X connect 21 0 3 1;
-#X connect 22 0 12 0;
-#X connect 23 0 17 0;
-#X connect 23 1 18 0;
-#X connect 23 2 19 0;
-#X connect 23 3 20 0;
-#X connect 23 4 22 0;
-#X connect 23 5 11 0;
+#X connect 22 0 17 0;
+#X connect 22 1 18 0;
+#X connect 22 2 19 0;
+#X connect 22 3 20 0;
+#X connect 22 4 23 0;
+#X connect 22 5 11 0;
+#X connect 23 0 12 0;
 #X restore 57 96 pd browsing;
 #N canvas 6 50 440 271 RESERVED 0;
 #X obj 241 123 s o-get-params;
@@ -258,10 +258,10 @@ preset \; -receive parameters \; -get parameters \; -select a page
 but one of the good examples above \; -naming your child;
 #X restore 54 129 pd RESERVED NAMES;
 #X obj 51 20 declare -path o-knob;
-#N canvas 191 120 791 940 page-selector 0;
+#N canvas 188 118 791 940 page-selector 0;
 #X obj 95 469 s o-page-selected;
 #X obj 95 207 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
--1 1;
+-1 6;
 #X obj 95 50 r aux;
 #X obj 95 72 sel 1;
 #X msg 95 144 1;
@@ -621,7 +621,7 @@ screenLine4 .;
 -1 -1 0 1;
 #X obj 1099 529 vsl 15 128 0 1 0 0 empty empty driveL 0 -9 0 10 -262144
 -1 -1 0 1;
-#N canvas 642 445 1910 844 extra 1;
+#N canvas 639 443 1910 844 extra 0;
 #X obj 601 161 * 100;
 #X obj 600 200 int;
 #X obj 298 167 * 100;
@@ -659,7 +659,7 @@ screenLine4 .;
 #X connect 11 0 10 0;
 #X connect 12 0 13 0;
 #X connect 13 0 24 0;
-#X connect 13 0 25 0;
+#X connect 13 1 25 0;
 #X connect 15 0 16 0;
 #X connect 16 0 11 0;
 #X connect 16 1 12 0;
