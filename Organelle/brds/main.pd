@@ -76,7 +76,7 @@
 #X msg 1137 517 enc \$1;
 #X msg 1226 517 encbut \$1;
 #X obj 1226 481 r encbut;
-#X msg 199 164 param float o_transpose Transpose -24 24 0;
+#X msg 199 164 param semi o_transpose Transpose -24 24 0;
 #X connect 0 0 34 0;
 #X connect 1 0 34 0;
 #X connect 2 0 34 0;
