@@ -47,7 +47,7 @@
 #X msg 724 220 encbut \$1;
 #X obj 724 184 r encbut;
 #X obj 327 305 KontrolHost~ 9000;
-#X obj 84 52 Kontrol /tmp/patch/brds-param;
+#X obj 84 52 Kontrol brds-param;
 #X connect 0 0 2 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
