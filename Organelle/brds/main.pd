@@ -17,7 +17,7 @@
 #X msg 499 456 diffusion \$1;
 #X msg 671 457 time \$1;
 #X msg 586 457 lp \$1;
-#N canvas 976 400 1529 830 params 1;
+#N canvas 813 394 1529 830 params 1;
 #X obj 219 453 r seq-display;
 #X obj 213 538 list;
 #X obj 219 478 t b a;
@@ -48,6 +48,11 @@
 #X obj 724 184 r encbut;
 #X obj 327 305 KontrolHost~ 9000;
 #X obj 84 52 Kontrol brds-param;
+#X obj 458 458 r seq-display;
+#X obj 473 608 s screenLine5;
+#X obj 833 183 ctlin;
+#X obj 833 221 pack f f;
+#X msg 833 244 midiCC \$2 \$1;
 #X connect 0 0 2 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
@@ -69,6 +74,11 @@
 #X connect 21 0 24 0;
 #X connect 22 0 24 0;
 #X connect 23 0 22 0;
+#X connect 26 0 27 0;
+#X connect 28 0 29 0;
+#X connect 28 1 29 1;
+#X connect 29 0 30 0;
+#X connect 30 0 24 0;
 #X restore 38 126 pd params;
 #X obj 442 386 r r_amt;
 #X obj 503 386 r r_diff;
