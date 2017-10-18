@@ -47,7 +47,7 @@
 #X msg 724 220 encbut \$1;
 #X obj 724 184 r encbut;
 #X obj 327 305 KontrolHost~ 9000;
-#X obj 84 52 Kontrol brds-param;
+#X obj 84 52 Kontrol brds;
 #X obj 458 458 r seq-display;
 #X obj 473 608 s screenLine5;
 #X obj 833 183 ctlin;
