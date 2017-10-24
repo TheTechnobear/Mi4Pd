@@ -30,6 +30,7 @@ rngs_chorus~
 rngs_ensemble~
 rngs_reverb~
 wrps~
+grids
 
 ## Folder Structure ##
 mi - contains MI code, which has some modifications for this purpose, see git logs for details
