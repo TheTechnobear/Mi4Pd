@@ -48,8 +48,10 @@ typedef struct _grids{
     
 } t_grids;
 
+extern "C" {
 void grids_free(t_grids *x);
 void *grids_new(t_symbol *s, long argc, t_atom *argv);
+void grids_setup(void);
 
 //inlet methods
 
@@ -63,7 +65,7 @@ void grids_evaluate_drums(t_grids *grids);
 t_int grids_read_drum_map(t_grids *grids, t_int instrument);
 void grids_evaluate_euclidean(t_grids *grids);
 void grids_output(t_grids *grids);
-
+}
 
 void grids_setup(void)
 {

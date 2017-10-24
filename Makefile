@@ -3,7 +3,7 @@
 # settings and rules.
 
 # library name
-lib.name = technobear
+lib.name = mi4pd
 
 #TODO - perhaps replace this in MI code with defined (__arm__), or better NEON?
 machine := $(shell uname -m)
