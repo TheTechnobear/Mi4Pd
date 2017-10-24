@@ -11,6 +11,10 @@ all work in this repo has no guarantee and you use at your own risk.
 As derivative works, these externals are **not** supported by Oliver/MI, please read the license in mi/LICENSE for details.
 see also http://mutable-instruments.net
 
+Grids comes from :
+https://github.com/spoitras/Pd-Grids
+developed by Spoitras and Henri David
+
 ## Status ##
 This externals and patches are still in development, so their interfaces may changes.
 

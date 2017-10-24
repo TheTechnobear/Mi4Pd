@@ -82,6 +82,12 @@ RINGS_SRC = \
        ${MUTABLE_INSTRUMENTS}/rings/dsp/string_synth_part.cc
 endif
 
+# ifneq (,$(findstring GRIDS,$(MI_MODULES)))
+# #$(info  including RINGS)
+# GRIDS_SRC = \
+#        ${MUTABLE_INSTRUMENTS}/grids/grids 
+# endif
+
 ifneq (,$(findstring STREAMS,$(MI_MODULES)))
 #$(info including STREAMS)
 STREAMS_SRC = \
@@ -123,7 +129,8 @@ class.sources = \
 				lmnts~.cpp \
 				rngs_chorus~.cpp \
 				rngs_ensemble~.cpp \
-				rngs_reverb~.cpp 
+				rngs_reverb~.cpp \
+				grids.cpp
 				
 
 # all extra files to be included in binary distribution of the library
