@@ -2,7 +2,7 @@
     "name" : "brds",
     "display" : "Braids",
     "parameters" :  [ 
-        ["float","o_shape","Shape",0,47,0],
+        ["int","o_shape","Shape",0,47,0],
         ["pct","o_colour","Colour",0,100,50],
         ["pct","o_timbre","Timbre",0,100,50],
         ["pitch","o_transpose","Transpose",-24,24,0],
