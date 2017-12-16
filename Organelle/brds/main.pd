@@ -51,8 +51,8 @@
 #X obj 833 183 ctlin;
 #X obj 833 221 pack f f;
 #X msg 833 244 midiCC \$2 \$1;
-#X obj 327 305 KontrolRack 8000 4000;
-#X obj 84 52 KontrolModule module1 brds;
+#X obj 327 305 KontrolRack 8000 9000;
+#X obj 84 52 KontrolModule braids brds;
 #X connect 0 0 2 0;
 #X connect 1 0 4 0;
 #X connect 2 0 3 0;
