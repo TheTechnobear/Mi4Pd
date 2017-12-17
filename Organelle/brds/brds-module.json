@@ -13,7 +13,7 @@
         ["freq","f_cutoff","Cutoff",0,15000,10000],
         ["pct","f_reson","Resonance",0,100,0],
         ["pct","f_env_amt","E.Amount",0,100,0],
-        ["float","f_env","Env.Type",0,5,0],
+        ["int","f_env","Env.Type",0,4,0],
         ["pct","r_amt","Amount",0,100,0],
         ["pct","r_time","Time",0,100,50],
         ["pct","r_diff","Diffusion",0,100,20],

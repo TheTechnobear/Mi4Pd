@@ -54,7 +54,7 @@
 #X obj 676 131 r e_sustain;
 #X obj 675 160 r e_release;
 #X obj 150 112 / 100;
-#X obj 235 106 / 48;
+#X obj 235 106 / 47;
 #X connect 0 0 12 0;
 #X connect 1 0 0 0;
 #X connect 2 0 13 0;
