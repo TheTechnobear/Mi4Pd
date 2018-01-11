@@ -1,4 +1,0 @@
-#*.pd_linux
-*.pd_darwin
-*.o
-*.dll
