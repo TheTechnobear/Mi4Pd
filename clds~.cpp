@@ -3,7 +3,7 @@
 //IMPROVE - inlets
 //TODO - types on params?
 
-static const char* clds_version = "0.4"; 
+static const char* clds_version = "0.5"; 
 
 #include "clouds/dsp/granular_processor.h"
 
@@ -49,8 +49,8 @@ typedef struct _clds_tilde {
   clouds::ShortFrame* obuf;
   int iobufsz;
 
-  static const int LARGE_BUF = 131072;
-  static const int SMALL_BUF = 65536;
+  static const int LARGE_BUF = 524288;
+  static const int SMALL_BUF = 262144;
   uint8_t* large_buf;
   int      large_buf_size;
   uint8_t* small_buf;
