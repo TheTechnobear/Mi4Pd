@@ -197,10 +197,12 @@ void grids_evaluate_drums(t_grids *grids) {
     if (grids->step == 0) {
         for (int i = 0; i < grids->kNumParts; ++i) {
             t_int randomness = (t_int)grids->randomness >> 2;
-
-            t_int rand = random();
-            
-            t_int rand2 = (t_int)(rand%256);
+#ifdef WIN32
+            t_int randN = rand();
+#else
+            t_int randN = random();
+#endif
+            t_int rand2 = (t_int)(randN%256);
             grids->part_perturbation[i] = (rand2*randomness) >> 8;
         }
     }

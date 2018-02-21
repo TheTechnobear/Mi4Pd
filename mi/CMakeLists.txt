@@ -2,6 +2,12 @@
 # MEC library
 project(MILib)
 
+set(BRAIDS_SRC
+    braids/braids_resources.cc
+    braids/analog_oscillator.cc
+    braids/digital_oscillator.cc
+    braids/macro_oscillator.cc
+    )
 
 set(WARPS_SRC
        warps/warps_resources.cc
@@ -66,6 +72,8 @@ set(MILIB_SRC
         ${ELMENTS_SRC}
         ${WARPS_SRC}
         ${RINGS_SRC}
+        ${BRAIDS_SRC}
+        ${ELEMENTS_SRC}
         )
 
 include_directories(

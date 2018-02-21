@@ -37,6 +37,9 @@ elseif (UNIX)
     else ()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST") 
     endif ()
+elseif(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST")
+    set(PD_CMAKE_PATH C:/Program\ Files\ \(x86\)/Pd/bin)
 endif (APPLE)
 
 
@@ -49,6 +52,7 @@ else()
   set(CMAKE_INSTALL_RPATH "@executable_path/../lib;@loader_path")
   set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR TRUE)
 endif()
+
 
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/release/lib)
