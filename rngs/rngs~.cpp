@@ -4,8 +4,6 @@
 //IMPROVE - 
 //TODO - hep file
 
-
-
 #include "rings/dsp/part.h"
 #include "rings/dsp/patch.h"
 #include "rings/dsp/strummer.h"
@@ -78,14 +76,17 @@ extern "C"  {
 }
 
 // puredata methods implementation -start
-t_int *rngs_tilde_render(t_int *w)
-{
-  t_rngs_tilde *x   = (t_rngs_tilde *)(w[1]);
-  t_sample  *in  = (t_sample *)(w[2]);
-  t_sample  *out  = (t_sample *)(w[3]);
-  t_sample  *aux = (t_sample *)(w[4]);
-  int n =  (int)(w[5]);
+t_int *rngs_tilde_render(t_int *w) {
+  t_rngs_tilde *x = (t_rngs_tilde *) (w[1]);
+  t_sample *in = (t_sample *) (w[2]);
+  t_sample *out = (t_sample *) (w[3]);
+  t_sample *aux = (t_sample *) (w[4]);
+  int n = (int) (w[5]);
   size_t size = n;
+
+  for (int i = 0; i < n; i++) {
+    out[i] = in[i];
+  }
 
   if (n > x->iobufsz) {
     delete [] x->in;
@@ -93,13 +94,10 @@ t_int *rngs_tilde_render(t_int *w)
     x->in = new float[ x->iobufsz];
   }
 
-
-  // x->part.mutable_patch()->resonator_geometry   = constrain(x->f_geometry   ,0.0f, 0.9995f);
-  // x->part.mutable_patch()->resonator_brightness = constrain(x->f_brightness ,0.0f, 0.9995f);
-  // x->part.mutable_patch()->resonator_damping    = constrain(x->f_damping    ,0.0f, 0.9995f);
-  // x->part.mutable_patch()->resonator_position   = constrain( x->f_position  ,0.0f, 0.9995f);
-
-
+   x->patch.brightness = constrain(x->f_brightness ,0.0f, 0.9995f);
+   x->patch.damping = constrain(x->f_damping    ,0.0f, 0.9995f);
+   x->patch.position = constrain( x->f_position  ,0.0f, 0.9995f);
+   x->patch.structure = constrain( x->f_structure  ,0.0f, 0.9995f);
 
   // uint32_t nresonator = (int (x->f_resonator) % 3);
   // if(x->resonator != nresonator) {
@@ -107,7 +105,7 @@ t_int *rngs_tilde_render(t_int *w)
   //   x->part.set_resonator_model(elements::ResonatorModel(x->resonator));
   // }
 
-
+#if 0
   x->part.set_bypass(x->f_bypass > 0.5);
   // x->part.set_easter_egg(x->f_easter_egg > 0.5);
 
@@ -127,7 +125,8 @@ t_int *rngs_tilde_render(t_int *w)
     x->strummer.Process(x->in, size, &(x->performance_state));
     x->part.Process(x->performance_state, x->patch, x->in, out, aux, size);
   }
-  
+#endif
+
   //TODO
   return (w + 6); // # args + 1
 }
@@ -136,7 +135,7 @@ t_int *rngs_tilde_render(t_int *w)
 void rngs_tilde_dsp(t_rngs_tilde *x, t_signal **sp)
 {
   // add the perform method, with all signal i/o
-  dsp_add(rngs_tilde_render, 6,
+  dsp_add(rngs_tilde_render, 5,
           x,
           sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, // signal i/o (clockwise)
           sp[0]->s_n);
