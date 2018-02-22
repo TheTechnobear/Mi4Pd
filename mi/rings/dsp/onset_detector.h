@@ -211,7 +211,7 @@ class OnsetDetector {
   float envelope_[3];
   float onset_df_;
   
-  float bands_[3][32];
+  float bands_[3][kMaxBlockSize];
   
   ZScorer z_df_;
   
