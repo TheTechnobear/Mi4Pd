@@ -37,7 +37,4 @@ mi - contains MI code, which has some modifications for this purpose, see git lo
 Organelle - contains Organelle patches based on this code, included binary externals. basically the source for patches uploaded to patchstorage.
 
 ## Building ##
-This build now uses cmake, the Makefile is unmaintained and will be removed after final testings
-
-This build uses [pd-lib-builder](https://github.com/pure-data/pd-lib-builder/)
-
+This build now uses cmake
