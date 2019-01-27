@@ -165,7 +165,7 @@ t_int* brds_tilde_render(t_int *w)
   timbre += ad_value * x->f_ad_mod_timbre;
   int32_t colour = int(x->f_colour * 32768.0f);
   colour += ad_value * x->f_ad_mod_colour;
-  x->osc.set_parameters(constrain(timbre,0,32768), constrain(colour,0,32768));
+  x->osc.set_parameters(constrain(timbre,0,32767), constrain(colour,0,32767));
 
 
   int32_t pitch = x->f_pitch;
