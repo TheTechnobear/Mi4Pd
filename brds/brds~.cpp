@@ -161,9 +161,9 @@ t_int* brds_tilde_render(t_int *w)
     x->osc.set_shape((braids::MacroOscillatorShape) (ishape));
   }
   
-  int32_t timbre = int(x->f_timbre * 32768.0f);
+  int32_t timbre = int(x->f_timbre * 32767.0f);
   timbre += ad_value * x->f_ad_mod_timbre;
-  int32_t colour = int(x->f_colour * 32768.0f);
+  int32_t colour = int(x->f_colour * 32767.0f);
   colour += ad_value * x->f_ad_mod_colour;
   x->osc.set_parameters(constrain(timbre,0,32767), constrain(colour,0,32767));
 
