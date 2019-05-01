@@ -94,6 +94,7 @@ extern "C"  {
   void brds_tilde_shape(t_brds_tilde *x, t_floatarg f);
   void brds_tilde_colour(t_brds_tilde *x, t_floatarg f);
   void brds_tilde_timbre(t_brds_tilde *x, t_floatarg f);
+  void brds_tilde_trigger(t_brds_tilde *x, t_floatarg f);
 }
 
 static const char *algo_values[] = {
@@ -372,6 +373,10 @@ void brds_tilde_timbre(t_brds_tilde *x, t_floatarg f)
 {
   x->f_timbre = f;
 }
+void brds_tilde_trigger(t_brds_tilde *x, t_floatarg f)
+{
+  x->trigger_flag = f >= 1;
+}
 
 void brds_tilde_setup(void) {
   brds_tilde_class = class_new(gensym("brds~"),
@@ -398,6 +403,9 @@ void brds_tilde_setup(void) {
                   A_DEFFLOAT, A_NULL);
   class_addmethod(brds_tilde_class,
                   (t_method) brds_tilde_timbre, gensym("timbre"),
+                  A_DEFFLOAT, A_NULL);
+  class_addmethod(brds_tilde_class,
+                  (t_method) brds_tilde_trigger, gensym("trigger"),
                   A_DEFFLOAT, A_NULL);
 }
 // puredata methods implementation - end
