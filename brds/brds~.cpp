@@ -78,6 +78,9 @@ typedef struct _brds_tilde {
   bool      trigger_flag;
   uint16_t  trigger_delay;
 
+  t_int block_size;
+  t_int block_count;
+  t_int last_n;
 
 } t_brds_tilde;
 
@@ -163,6 +166,24 @@ t_int* brds_tilde_render(t_int *w)
   t_sample  *in_sync  =    (t_sample *)(w[2]);
   t_sample  *out =    (t_sample *)(w[3]);
   int n =  (int)(w[4]);
+
+  // Determine block size
+  if (n != x->last_n) {
+    // Plaits uses a block size of 24 max
+    if (n > 24) {
+      int block_size = 24;
+      while (n > 24 && n % block_size > 0) {
+        block_size--;
+      }
+      x->block_size = block_size;
+      x->block_count = n / block_size;
+    } else {
+      x->block_size = n;
+      x->block_count = 1;
+    }
+    x->last_n = n;
+  }
+    
   x->envelope.Update(int(x->f_ad_attack * 8.0f ) , int(x->f_ad_decay * 8.0f) );
   uint32_t ad_value = x->envelope.Render();
 
@@ -233,22 +254,19 @@ t_int* brds_tilde_render(t_int *w)
 
   bool sync_zero = x->f_ad_mod_vca!=0  || x->f_ad_mod_timbre !=0 || x->f_ad_mod_colour !=0 || x->f_ad_mod_fm !=0; 
 
-  // PD uses 64 size and Braids 24 max size,
-  // so we will render 4 blocks of 16 to get the 64 samples needed by PD.
-  int render_size = 16;
-  int render_calls = 4;
-  uint8_t* sync = new uint8_t[render_size];
-  int16_t* outint = new int16_t[render_size];
-  for (int j = 0; j < render_calls; j++) {
-    for (int i = 0; i < render_size; i++) {
+  // Generete the blocks needed for given "n" size.
+  uint8_t* sync = new uint8_t[x->block_size];
+  int16_t* outint = new int16_t[x->block_size];
+  for (int j = 0; j < x->block_count; j++) {
+    for (int i = 0; i < x->block_size; i++) {
       if(sync_zero) sync[i] = 0;
-      else sync[i] = in_sync[i + (render_size * j)] * (1<<8) ;
+      else sync[i] = in_sync[i + (x->block_size * j)] * (1<<8) ;
     }
 
-    x->osc.Render(sync, outint, render_size);
+    x->osc.Render(sync, outint, x->block_size);
 
-    for (int i = 0; i < render_size; i++) {
-      out[i + (render_size * j)] = outint[i] / 65536.0f ;
+    for (int i = 0; i < x->block_size; i++) {
+      out[i + (x->block_size * j)] = outint[i] / 65536.0f ;
     }
   }
 
