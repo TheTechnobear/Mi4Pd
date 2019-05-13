@@ -380,7 +380,6 @@ void brds_tilde_shape(t_brds_tilde *x, t_floatarg f)
 {
   x->f_shape = f;
   int shape = getShape(x->f_shape);
-  post("Shape: %s", algo_values[shape]);
   outlet_symbol(x->x_out_shape, gensym(algo_values[shape]));
 }
 void brds_tilde_colour(t_brds_tilde *x, t_floatarg f)
