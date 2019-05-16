@@ -63,7 +63,7 @@ typedef struct _brds_tilde {
   t_inlet*  x_in_pitch;
   t_inlet*  x_in_shape;
   t_outlet* x_out;
-
+  t_outlet* x_out_shape;
 
 
   braids::MacroOscillator osc;
@@ -78,6 +78,9 @@ typedef struct _brds_tilde {
   bool      trigger_flag;
   uint16_t  trigger_delay;
 
+  t_int block_size;
+  t_int block_count;
+  t_int last_n;
 
 } t_brds_tilde;
 
@@ -94,22 +97,64 @@ extern "C"  {
   void brds_tilde_shape(t_brds_tilde *x, t_floatarg f);
   void brds_tilde_colour(t_brds_tilde *x, t_floatarg f);
   void brds_tilde_timbre(t_brds_tilde *x, t_floatarg f);
+  void brds_tilde_trigger(t_brds_tilde *x, t_floatarg f);
 }
 
+static const char *algo_values[] = {
+    "CSAW",
+    "/\\-_",
+    "//-_",
+    "FOLD",
+    "uuuu",
+    "SUB-",
+    "SUB/",
+    "SYN-",
+    "SYN/",
+    "//x3",
+    "-_x3",
+    "/\\x3",
+    "SIx3",
+    "RING",
+    "////",
+    "//uu",
+    "TOY*",
+    "ZLPF",
+    "ZPKF",
+    "ZBPF",
+    "ZHPF",
+    "VOSM",
+    "VOWL",
+    "VFOF",
+    "HARM",
+    "FM  ",
+    "FBFM",
+    "WTFM",
+    "PLUK",
+    "BOWD",
+    "BLOW",
+    "FLUT",
+    "BELL",
+    "DRUM",
+    "KICK",
+    "CYMB",
+    "SNAR",
+    "WTBL",
+    "WMAP",
+    "WLIN",
+    "WTx4",
+    "NOIS",
+    "TWNQ",
+    "CLKN",
+    "CLOU",
+    "PRTC",
+    "QPSK",
+    "    ",
+};
 
 
 int getShape( float v) {
-
-  braids::MacroOscillatorShape ishape = static_cast<braids::MacroOscillatorShape>(v* (braids::MACRO_OSC_SHAPE_LAST - 1));
-  //FIX : for some reason, these all blow up
-  switch(ishape) {
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SAW: ishape = braids::MACRO_OSC_SHAPE_CSAW;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SQUARE: ishape = braids::MACRO_OSC_SHAPE_SAW_SQUARE;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_TRIANGLE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SINE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
-    default:
-      ;
-  }
+  float value = constrain(v, 0.0f, 1.0f);
+  braids::MacroOscillatorShape ishape = static_cast<braids::MacroOscillatorShape>(value* (braids::MACRO_OSC_SHAPE_LAST - 1));
   return ishape;
 }
 
@@ -121,22 +166,28 @@ t_int* brds_tilde_render(t_int *w)
   t_sample  *in_sync  =    (t_sample *)(w[2]);
   t_sample  *out =    (t_sample *)(w[3]);
   int n =  (int)(w[4]);
+
+  // Determine block size
+  if (n != x->last_n) {
+    // Plaits uses a block size of 24 max
+    if (n > 24) {
+      int block_size = 24;
+      while (n > 24 && n % block_size > 0) {
+        block_size--;
+      }
+      x->block_size = block_size;
+      x->block_count = n / block_size;
+    } else {
+      x->block_size = n;
+      x->block_count = 1;
+    }
+    x->last_n = n;
+  }
+    
   x->envelope.Update(int(x->f_ad_attack * 8.0f ) , int(x->f_ad_decay * 8.0f) );
   uint32_t ad_value = x->envelope.Render();
 
-
-
   int ishape = getShape(x->f_shape);
-  //FIX : for some reason, these all blow up
-  switch(ishape) {
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SAW: ishape = braids::MACRO_OSC_SHAPE_CSAW;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SQUARE: ishape = braids::MACRO_OSC_SHAPE_SAW_SQUARE;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_TRIANGLE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
-    case braids::MACRO_OSC_SHAPE_TRIPLE_SINE: ishape = braids::MACRO_OSC_SHAPE_SINE_TRIANGLE;
-    default:
-      ;
-  }
-
 
   if (x->f_paques) {
     x->osc.set_shape(braids::MACRO_OSC_SHAPE_QUESTION_MARK);
@@ -203,21 +254,23 @@ t_int* brds_tilde_render(t_int *w)
 
   bool sync_zero = x->f_ad_mod_vca!=0  || x->f_ad_mod_timbre !=0 || x->f_ad_mod_colour !=0 || x->f_ad_mod_fm !=0; 
 
-  uint8_t* sync = new uint8_t[n];
-  int16_t* outint = new int16_t[n];
+  // Generete the blocks needed for given "n" size.
+  uint8_t* sync = new uint8_t[x->block_size];
+  int16_t* outint = new int16_t[x->block_size];
+  for (int j = 0; j < x->block_count; j++) {
+    for (int i = 0; i < x->block_size; i++) {
+      if(sync_zero) sync[i] = 0;
+      else sync[i] = in_sync[i + (x->block_size * j)] * (1<<8) ;
+    }
 
-  for (int i = 0; i < n; i++) {
-    if(sync_zero) sync[i] = 0;
-    else sync[i] = in_sync[i] * (1<<8) ;
+    x->osc.Render(sync, outint, x->block_size);
+
+    for (int i = 0; i < x->block_size; i++) {
+      out[i + (x->block_size * j)] = outint[i] / 65536.0f ;
+    }
   }
 
-  x->osc.Render(sync, outint, n);
-
-  for (int i = 0; i < n; i++) {
-    out[i] = outint[i] / 65536.0f ;
-  }
-
-//   // Copy to DAC buffer with sample rate and bit reduction applied.
+   // Copy to DAC buffer with sample rate and bit reduction applied.
 //   int16_t sample = 0;
 //   size_t decimation_factor = decimation_factors[settings.data().sample_rate];
 //   uint16_t bit_mask = bit_reduction_masks[settings.data().resolution];
@@ -270,6 +323,7 @@ void brds_tilde_free(t_brds_tilde *x)
   inlet_free(x->x_in_shape);
   inlet_free(x->x_in_pitch);
   outlet_free(x->x_out);
+  outlet_free(x->x_out_shape);
 }
 
 void *brds_tilde_new(t_floatarg f)
@@ -309,10 +363,12 @@ void *brds_tilde_new(t_floatarg f)
   x->x_in_shape  = floatinlet_new (&x->x_obj, &x->f_shape);
   x->x_in_pitch  = floatinlet_new (&x->x_obj, &x->f_pitch);
   x->x_out   = outlet_new(&x->x_obj, &s_signal);
+  x->x_out_shape = outlet_new(&x->x_obj, &s_symbol);
 
   x->osc.Init();
   x->envelope.Init();
   x->jitter_source.Init();
+  x->ws.Init(0x0000);
   return (void *)x;
 }
 
@@ -323,6 +379,8 @@ void brds_tilde_pitch(t_brds_tilde *x, t_floatarg f)
 void brds_tilde_shape(t_brds_tilde *x, t_floatarg f)
 {
   x->f_shape = f;
+  int shape = getShape(x->f_shape);
+  outlet_symbol(x->x_out_shape, gensym(algo_values[shape]));
 }
 void brds_tilde_colour(t_brds_tilde *x, t_floatarg f)
 {
@@ -331,6 +389,10 @@ void brds_tilde_colour(t_brds_tilde *x, t_floatarg f)
 void brds_tilde_timbre(t_brds_tilde *x, t_floatarg f)
 {
   x->f_timbre = f;
+}
+void brds_tilde_trigger(t_brds_tilde *x, t_floatarg f)
+{
+  x->trigger_flag = f >= 1;
 }
 
 void brds_tilde_setup(void) {
@@ -358,6 +420,9 @@ void brds_tilde_setup(void) {
                   A_DEFFLOAT, A_NULL);
   class_addmethod(brds_tilde_class,
                   (t_method) brds_tilde_timbre, gensym("timbre"),
+                  A_DEFFLOAT, A_NULL);
+  class_addmethod(brds_tilde_class,
+                  (t_method) brds_tilde_trigger, gensym("trigger"),
                   A_DEFFLOAT, A_NULL);
 }
 // puredata methods implementation - end
