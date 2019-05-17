@@ -83,7 +83,7 @@ t_int *wrps_tilde_render(t_int *w)
     x->obuf = new warps::ShortFrame[x->iobufsz];
   }
 
-  int shape = int(constrain((x->f_shape * 3.0f)+0.3,0.0,3.0));
+  int shape = int(constrain(x->f_shape,0.0,3.0));
   float algo = constrain(x->f_algo,0.0f,1.0f);
 
   x->processor.mutable_parameters()->carrier_shape = shape;
