@@ -2,11 +2,11 @@
 
 The first set are externals wrapping Mutable Instruments code used for Eurorack modules. 
 
-Its truely appreciated that Olivier Gillet / Mutable Instruments has published this code under the MIT license, allowing derivatives, its a very generous act, which Id like to acknowledege.
+Its truely appreciated that Olivier Gillet / Mutable Instruments has published this code under the MIT license, allowing derivatives, its a very generous act, which Id like to acknowledge.
 
 If use code from this library, you should also make your code open source, and also respect the license for mutable instruments code.
 
-all work in this repo has no guarantee and you use at your own risk.
+All work in this repo has no guarantee and you use at your own risk.
 
 As derivative works, these externals are **not** supported by Oliver/MI, please read the license in mi/LICENSE for details.
 see also http://mutable-instruments.net
