@@ -2,7 +2,7 @@
 
 The first set are externals wrapping Mutable Instruments code used for Eurorack modules. 
 
-Its truely appreciated that Olivier Gillet / Mutable Instruments has published this code under the MIT license, allowing derivatives, its a very generous act, which Id like to acknowledge.
+Its truely appreciated that Emile Gillet / Mutable Instruments has published this code under the MIT license, allowing derivatives, its a very generous act, which Id like to acknowledge.
 
 If use code from this library, you should also make your code open source, and also respect the license for mutable instruments code.
 
