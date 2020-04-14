@@ -18,6 +18,16 @@ developed by Spoitras and Henri David
 ## Status ##
 This externals and patches are still in development, so their interfaces may changes.
 
+## Platforms
+- Linux 
+- macOS 
+
+note:
+mainly I use this on the Organelle and raspberryPI (and derivatives).
+I only use for dev/testing on macOS, so only with the version of OS X/ Xcode I have installed.
+
+Windows, may or may not work... I believe it does, but do not regularly use/test it.
+
 ## Contributions ##
 Its best for users if there is a single source for these externals, so if you wish to extend/fix/contribute, Im very happy to take Pull Requests for enhancements / bug fixes etc.
 
@@ -37,4 +47,12 @@ mi - contains MI code, which has some modifications for this purpose, see git lo
 Organelle - contains Organelle patches based on this code, included binary externals. basically the source for patches uploaded to patchstorage.
 
 ## Building ##
-This build now uses cmake
+
+you need to have cmake installed (v2.8.11+), see https://cmake.org for downloading/installation.
+
+```
+mkdir build 
+cd build
+cmake ..
+make
+```
