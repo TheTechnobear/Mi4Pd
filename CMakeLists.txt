@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8.11)
 
 project(Mi4Pd)
 
+
+if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
+  if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+  endif()
+endif()
+
 set(PROJECT_NAME Mi4Pd)
 set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
 
