@@ -82,6 +82,9 @@ typedef struct _brds_tilde {
   t_int block_count;
   t_int last_n;
 
+  t_int buf_size;
+  uint8_t* sync_buf; 
+  int16_t* outint_buf;
 } t_brds_tilde;
 
 
@@ -183,6 +186,14 @@ t_int* brds_tilde_render(t_int *w)
     }
     x->last_n = n;
   }
+
+  if(x->block_size> x->buf_size) {
+    x->buf_size = x->block_size;
+    delete [] x->sync_buf;
+    delete [] x->outint_buf;
+    x->sync_buf = new uint8_t[x->buf_size];
+    x->outint_buf= new int16_t[x->buf_size]; 
+  }
     
   x->envelope.Update(int(x->f_ad_attack * 8.0f ) , int(x->f_ad_decay * 8.0f) );
   uint32_t ad_value = x->envelope.Render();
@@ -254,19 +265,16 @@ t_int* brds_tilde_render(t_int *w)
 
   bool sync_zero = x->f_ad_mod_vca!=0  || x->f_ad_mod_timbre !=0 || x->f_ad_mod_colour !=0 || x->f_ad_mod_fm !=0; 
 
-  // Generete the blocks needed for given "n" size.
-  uint8_t* sync = new uint8_t[x->block_size];
-  int16_t* outint = new int16_t[x->block_size];
   for (int j = 0; j < x->block_count; j++) {
     for (int i = 0; i < x->block_size; i++) {
-      if(sync_zero) sync[i] = 0;
-      else sync[i] = in_sync[i + (x->block_size * j)] * (1<<8) ;
+      if(sync_zero) x->sync_buf[i] = 0;
+      else x->sync_buf[i] = in_sync[i + (x->block_size * j)] * (1<<8) ;
     }
 
-    x->osc.Render(sync, outint, x->block_size);
+    x->osc.Render(x->sync_buf, x->outint_buf, x->block_size);
 
     for (int i = 0; i < x->block_size; i++) {
-      out[i + (x->block_size * j)] = outint[i] / 65536.0f ;
+      out[i + (x->block_size * j)] = x->outint_buf[i] / 65536.0f ;
     }
   }
 
@@ -303,9 +311,6 @@ t_int* brds_tilde_render(t_int *w)
   //   }
   // }
 
-  delete [] sync;
-  delete [] outint;
-
   return (w + 5); // # args + 1
 }
 
@@ -320,6 +325,8 @@ void brds_tilde_dsp(t_brds_tilde *x, t_signal **sp)
 
 void brds_tilde_free(t_brds_tilde *x)
 {
+  delete [] x->sync_buf;
+  delete [] x->outint_buf;
   inlet_free(x->x_in_shape);
   inlet_free(x->x_in_pitch);
   outlet_free(x->x_out);
@@ -365,10 +372,18 @@ void *brds_tilde_new(t_floatarg f)
   x->x_out   = outlet_new(&x->x_obj, &s_signal);
   x->x_out_shape = outlet_new(&x->x_obj, &s_symbol);
 
+  // plaits is limited to block size < 24, 
+  // so this should never be need to increase
+  x->buf_size = 48;
+  x->sync_buf = new uint8_t[x->buf_size];
+  x->outint_buf= new int16_t[x->buf_size];
+
+
   x->osc.Init();
   x->envelope.Init();
   x->jitter_source.Init();
   x->ws.Init(0x0000);
+
   return (void *)x;
 }
 
