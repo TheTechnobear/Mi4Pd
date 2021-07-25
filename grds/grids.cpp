@@ -69,7 +69,7 @@ void grids_output(t_grids *grids);
 
 void grids_setup(void)
 {
-    grids_class = class_new(gensym("grids"), (t_newmethod)grids_new, (t_method)grids_free, sizeof(t_grids), CLASS_DEFAULT, A_GIMME);
+    grids_class = class_new(gensym("grids"), (t_newmethod)grids_new, (t_method)grids_free, sizeof(t_grids), CLASS_DEFAULT, A_GIMME, A_NULL);
     
     //Method space definition
     class_addfloat(grids_class, grids_in_mode_and_clock);
