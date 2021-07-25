@@ -9,18 +9,29 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)
   endif()
 endif()
 
-set(PROJECT_NAME Mi4Pd)
-set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
 
-if(WIN32)
+
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin") 
+    set(EXECUTABLE_NAME Mi4Pd)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST") 
+
+    #set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
+    if(NOT CMAKE_OSX_ARCHITECTURES)
+                set(CMAKE_OSX_ARCHITECTURES "${CMAKE_HOST_SYSTEM_PROCESSOR}")
+    endif()
+    message(STATUS "CMAKE_OSX_ARCHITECTURES ${CMAKE_OSX_ARCHITECTURES}")
+
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(EXECUTABLE_NAME mi4pd)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message("windows support limited")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST") 
+    set(EXECUTABLE_NAME mi4pd)
 endif()
 
-if (APPLE)
-    set(EXECUTABLE_NAME Mi4Pd)
-elseif (UNIX)
-    set(EXECUTABLE_NAME mi4pd)
-endif (APPLE)
+
+set(PROJECT_NAME Mi4Pd)
 
 set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -43,9 +54,9 @@ endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Processor: ${CMAKE_SYSTEM_PROCESSOR}")
 if (NOT DEFINED CPU_OPTIMIZATION_FLAGS)
-    if (APPLE)
-    elseif (UNIX)
-        if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "^arm")
+    if(CMAKE_SYSTEM_NAME STREQUAL "Darwin") 
+    elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+            if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "^arm")
             if (BELA)
                 message(STATUS "BELA optimized")
                 # /usr/xenomai/bin/xeno-config --skin=cobalt --no-mode-check --cflags
@@ -87,16 +98,18 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPU_OPTIMIZATION_FLAGS}")
 endif ()
 
-## setup rpath for linux and macos
-set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-if (NOT APPLE)
-    set(CMAKE_INSTALL_RPATH "$ORIGIN/:$ORIGIN/../lib")
-else()
-  set(CMAKE_INSTALL_NAME_DIR "@rpath")
-  set(CMAKE_INSTALL_RPATH "@executable_path/../lib;@loader_path")
-  set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR TRUE)
-endif()
+if (NOT DISABLE_RPATH_OVERRIDE)
+  ## setup rpath for linux and macos
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
+  if(CMAKE_SYSTEM_NAME STREQUAL "Darwin") 
+    set(CMAKE_INSTALL_NAME_DIR "@rpath")
+    set(CMAKE_INSTALL_RPATH "@executable_path/../lib;@loader_path")
+    set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR TRUE)
+  else()
+    set(CMAKE_INSTALL_RPATH "$ORIGIN/:$ORIGIN/../lib")
+  endif()
+endif()
 
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/release/lib)
