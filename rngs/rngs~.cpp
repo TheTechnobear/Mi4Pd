@@ -53,6 +53,7 @@ typedef struct _rngs_tilde {
     float in_level;
     float *in;
     int iobufsz;
+    float pitch_offset=0.0f;
 
     static const int REVERB_SZ = 32768;
     uint16_t buffer[REVERB_SZ];
@@ -74,7 +75,7 @@ void rngs_tilde_setup(void);
 void rngs_tilde_pitch(t_rngs_tilde *x, t_floatarg f);
 void rngs_tilde_transpose(t_rngs_tilde *x, t_floatarg f);
 void rngs_tilde_fm(t_rngs_tilde *x, t_floatarg f);
-void rngs_tilde_trig(t_rngs_tilde *x, t_floatarg f);
+void rngs_tilde_trig(t_rngs_tilde *x);
 void rngs_tilde_model(t_rngs_tilde *x, t_floatarg f);
 
 void rngs_tilde_chord(t_rngs_tilde *x, t_floatarg f);
@@ -110,18 +111,22 @@ t_int *rngs_tilde_render(t_int *w) {
         x->in = new float[x->iobufsz];
     }
 
+
     x->patch.brightness = constrain(x->f_brightness, 0.0f, 1.0f);
     x->patch.damping = constrain(x->f_damping, 0.0f, 1.0f);
     x->patch.position = constrain(x->f_position, 0.0f, 1.0f);
     x->patch.structure = constrain(x->f_structure, 0.0f, 0.9995f);
     x->performance_state.fm = constrain(x->f_fm, -48.0f, 48.0f);
-    x->performance_state.note = x->f_pitch;
+    x->performance_state.note = x->f_pitch + x->pitch_offset;
     x->performance_state.tonic = 12.0f + x->f_transpose;
     x->performance_state.internal_exciter = x->f_internal_exciter > 0.5;
     x->performance_state.internal_strum =  x->f_internal_strum > 0.5;
     x->performance_state.internal_note =  x->f_internal_note > 0.5;
     x->performance_state.chord = x->patch.structure * constrain(x->f_chord, 0, rings::kNumChords - 1);
+
     x->performance_state.strum = x->f_trig > 0.5;
+    x->f_trig=0.0f;
+
 
     x->f_polyphony = constrain(1 << int(x->f_polyphony) , 1, rings::kMaxPolyphony);
 
@@ -182,17 +187,17 @@ void rngs_tilde_free(t_rngs_tilde *x) {
 void *rngs_tilde_new(t_floatarg) {
     t_rngs_tilde *x = (t_rngs_tilde *) pd_new(rngs_tilde_class);
 
-    x->f_polyphony = 1.0f;
+    x->f_polyphony = 0.0f;
     x->f_model = 0.0f;
-    x->f_pitch = 0.0f;
-    x->f_structure = 0.0f;
-    x->f_brightness = 0.0f;
-    x->f_damping = 0.0f;
-    x->f_position = 0.0f;
+    x->f_pitch = 60.0f;
+    x->f_structure = 0.4f;
+    x->f_brightness = 0.5f;
+    x->f_damping = 0.5f;
+    x->f_position = 0.5f;
     x->f_bypass = 0.0f;
     x->f_easter_egg = 0.0f;
     x->f_internal_exciter = 1;
-    x->f_internal_strum = 1;
+    x->f_internal_strum = 0;
     x->f_internal_note= 0;
     x->f_chord = 0;
     x->f_transpose = 0;
@@ -203,19 +208,31 @@ void *rngs_tilde_new(t_floatarg) {
 
     x->kNoiseGateThreshold = 0.00003f;
 
-    //TODO
-    const int kSampleRate = 44100, kMaxBlockSize = 64;
+    if(sys_getsr()!=48000.0f) {
+        post("rngs~.pd is designed for 48k, not %f, approximating pitch", sys_getsr());
+        if(sys_getsr()==44100) {
+            x->pitch_offset=1.46f;
+        }
+    }
 
-    x->strummer.Init(0.01f, kSampleRate / kMaxBlockSize);
+    x->strummer.Init(0.01f, sys_getsr() / sys_getblksize());
     x->string_synth.Init(x->buffer);
     x->part.Init(x->buffer);
 
-    x->iobufsz = 64;
+    x->iobufsz = sys_getblksize();
     x->in = new float[x->iobufsz];
 
     //x_in_strike = main input
     x->x_out_odd = outlet_new(&x->x_obj, &s_signal);
     x->x_out_even = outlet_new(&x->x_obj, &s_signal);
+
+
+    x->part.set_polyphony(x->f_polyphony);
+    x->string_synth.set_polyphony(x->f_polyphony);
+    rings::ResonatorModel model = static_cast<rings::ResonatorModel>((int) x->f_model);
+    x->part.set_model(model);
+    x->string_synth.set_fx(static_cast<rings::FxType>(model));
+
     return (void *) x;
 }
 
@@ -284,7 +301,7 @@ void rngs_tilde_setup(void) {
                     A_DEFFLOAT, A_NULL);
     class_addmethod(rngs_tilde_class,
                     (t_method) rngs_tilde_trig, gensym("trig"),
-                    A_DEFFLOAT, A_NULL);
+                     A_NULL);
     class_addmethod(rngs_tilde_class,
                     (t_method) rngs_tilde_fm, gensym("fm"),
                     A_DEFFLOAT, A_NULL);
@@ -336,8 +353,8 @@ void rngs_tilde_fm(t_rngs_tilde *x, t_floatarg f) {
     x->f_fm= f;
 }
 
-void rngs_tilde_trig(t_rngs_tilde *x, t_floatarg f) {
-    x->f_trig = f;
+void rngs_tilde_trig(t_rngs_tilde *x) {
+    x->f_trig = 1.0f;
 }
 
 void rngs_tilde_chord(t_rngs_tilde *x, t_floatarg f) {
