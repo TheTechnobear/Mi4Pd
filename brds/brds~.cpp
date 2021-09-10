@@ -64,6 +64,7 @@ typedef struct _brds_tilde {
   t_inlet*  x_in_shape;
   t_outlet* x_out;
   t_outlet* x_out_shape;
+  float pitch_offset=0.0f;
 
 
   braids::MacroOscillator osc;
@@ -230,7 +231,7 @@ t_int* brds_tilde_render(t_int *w)
   x->osc.set_parameters(constrain(timbre,0,32767), constrain(colour,0,32767));
 
 
-  int32_t pitch = x->f_pitch;
+  int32_t pitch = x->f_pitch + x->pitch_offset;
   if (! x->f_meta_modulation) {
     pitch += x->f_fm;
   }
@@ -377,6 +378,14 @@ void *brds_tilde_new(t_floatarg f)
   x->buf_size = 48;
   x->sync_buf = new uint8_t[x->buf_size];
   x->outint_buf= new int16_t[x->buf_size];
+
+  if(sys_getsr()!=48000.0f) {
+      post("brds~.pd is designed for 96k, not %f, approximating pitch", sys_getsr());
+      if(sys_getsr()==44100) {
+          x->pitch_offset=193.0f;
+      }
+  }
+
 
 
   x->osc.Init();
